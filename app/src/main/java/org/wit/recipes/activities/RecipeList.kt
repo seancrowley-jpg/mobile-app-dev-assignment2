@@ -27,7 +27,7 @@ class RecipeListActivity : AppCompatActivity() {
 
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = RecipeAdapter(app.recipes)
+        binding.recyclerView.adapter = RecipeAdapter(app.recipes.findAll())
         binding.toolbar.title = title
         setSupportActionBar(binding.toolbar)
     }
