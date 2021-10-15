@@ -1,4 +1,4 @@
-package org.wit.recipes.activites
+package org.wit.recipes.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,7 +7,6 @@ import org.wit.recipes.R
 import org.wit.recipes.databinding.ActivityRecipeBinding
 import org.wit.recipes.main.MainApp
 import org.wit.recipes.models.RecipeModel
-import timber.log.Timber
 import timber.log.Timber.i
 
 class Recipe : AppCompatActivity() {
