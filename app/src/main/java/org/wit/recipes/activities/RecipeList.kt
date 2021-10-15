@@ -8,11 +8,13 @@ import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.wit.recipes.R
 import org.wit.recipes.adapters.RecipeAdapter
+import org.wit.recipes.adapters.RecipeListener
 import org.wit.recipes.databinding.ActivityRecipeListBinding
 import org.wit.recipes.main.MainApp
+import org.wit.recipes.models.RecipeModel
 
 
-class RecipeListActivity : AppCompatActivity() {
+class RecipeListActivity : AppCompatActivity(), RecipeListener {
 
     lateinit var app: MainApp
 
@@ -27,7 +29,7 @@ class RecipeListActivity : AppCompatActivity() {
 
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = RecipeAdapter(app.recipes.findAll())
+        binding.recyclerView.adapter = RecipeAdapter(app.recipes.findAll(),this)
         binding.toolbar.title = title
         setSupportActionBar(binding.toolbar)
     }
@@ -45,5 +47,10 @@ class RecipeListActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onRecipeClick(recipe: RecipeModel) {
+        val launcherIntent = Intent(this, RecipeActivity::class.java)
+        startActivityForResult(launcherIntent,0)
     }
 }
