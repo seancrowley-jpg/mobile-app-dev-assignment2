@@ -13,5 +13,8 @@ class MainApp : Application() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
         i("Recipe started")
+        recipes.add(RecipeModel("One", "About one..."))
+        recipes.add(RecipeModel("Two", "About two..."))
+        recipes.add(RecipeModel("Three", "About three..."))
     }
 }
