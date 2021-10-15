@@ -19,28 +19,39 @@ class RecipeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_recipe)
         binding = ActivityRecipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        var edit = false
         binding.toolbarAdd.title = title
         setSupportActionBar(binding.toolbarAdd)
 
+        app = application as MainApp
+
         i("Recipe Activity started..")
 
+        if (intent.hasExtra("recipe_edit")) {
+            edit = true
+            recipe = intent.extras?.getParcelable("recipe_edit")!!
+            binding.recipeName.setText(recipe.name)
+            binding.recipeDescription.setText(recipe.description)
+            binding.btnAdd.setText(R.string.save_recipe)
+        }
         binding.btnAdd.setOnClickListener() {
             recipe.name = binding.recipeName.text.toString()
             recipe.description = binding.recipeDescription.text.toString()
-            if (recipe.name.isNotEmpty()) {
-                app.recipes.create(recipe.copy())
-                setResult(RESULT_OK)
-                finish()
-            }
-            else {
-                Snackbar.make(it,"Please Enter a name", Snackbar.LENGTH_LONG)
+            if (recipe.name.isEmpty()) {
+                Snackbar.make(it,R.string.enter_recipe_name, Snackbar.LENGTH_LONG)
                     .show()
             }
-            i("add Button Pressed")
+            else {
+                if (edit) {
+                    app.recipes.update(recipe.copy())
+                } else {
+                    app.recipes.create(recipe.copy())
+                }
+            }
+            setResult(RESULT_OK)
+            finish()
         }
     }
 
