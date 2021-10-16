@@ -1,18 +1,25 @@
 package org.wit.recipes.activities
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 import org.wit.recipes.R
 import org.wit.recipes.databinding.ActivityRecipeBinding
+import org.wit.recipes.helpers.showImagePicker
 import org.wit.recipes.main.MainApp
 import org.wit.recipes.models.RecipeModel
 import timber.log.Timber.i
 
 class RecipeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRecipeBinding
+    private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
     var recipe = RecipeModel()
     lateinit var app: MainApp
 
@@ -24,6 +31,7 @@ class RecipeActivity : AppCompatActivity() {
         var edit = false
         binding.toolbarAdd.title = title
         setSupportActionBar(binding.toolbarAdd)
+        registerImagePickerCallback()
 
         app = application as MainApp
 
@@ -34,6 +42,8 @@ class RecipeActivity : AppCompatActivity() {
             recipe = intent.extras?.getParcelable("recipe_edit")!!
             binding.recipeName.setText(recipe.name)
             binding.recipeDescription.setText(recipe.description)
+            Picasso.get().load(recipe.image).into(binding.recipeImage)
+            if (recipe.image != Uri.EMPTY) binding.chooseImage.setText(R.string.change_recipe_image)
             binding.btnAdd.setText(R.string.save_recipe)
         }
         binding.btnAdd.setOnClickListener() {
@@ -54,7 +64,7 @@ class RecipeActivity : AppCompatActivity() {
             finish()
         }
         binding.chooseImage.setOnClickListener {
-            i("Select image")
+            showImagePicker(imageIntentLauncher)
         }
     }
 
@@ -70,5 +80,23 @@ class RecipeActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun registerImagePickerCallback() {
+        imageIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when(result.resultCode){
+                    RESULT_OK -> {
+                        if (result.data != null) {
+                            i("Got Result ${result.data!!.data}")
+                            recipe.image = result.data!!.data!!
+                            Picasso.get().load(recipe.image).into(binding.recipeImage)
+                            binding.chooseImage.setText(R.string.change_recipe_image)
+                        }
+                    }
+                    RESULT_CANCELED -> { } else -> { }
+                }
+            }
     }
 }

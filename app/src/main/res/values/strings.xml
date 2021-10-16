@@ -8,4 +8,6 @@
     <string name="save_recipe"> Save Recipe</string>
     <string name="enter_recipe_name"> Please enter a Name for the Recipe</string>
     <string name="button_addImage"> Add Image </string>
+    <string name="select_recipe_image">Select an image for the Recipe</string>
+    <string name="change_recipe_image">Change Recipe image</string>
 </resources>
