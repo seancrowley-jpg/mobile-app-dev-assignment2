@@ -32,6 +32,15 @@ class RecipeActivity : AppCompatActivity() {
         binding.toolbarAdd.title = title
         setSupportActionBar(binding.toolbarAdd)
         registerImagePickerCallback()
+        var meals = resources.getStringArray(R.array.meals)
+        binding.mealPicker.minValue = 0
+        binding.mealPicker.maxValue= 2
+        binding.mealPicker.value = 0
+        binding.mealPicker.displayedValues = meals
+
+        binding.mealPicker.setOnValueChangedListener{ _, _, newVal ->
+            binding.mealText.setText(meals[newVal])
+        }
 
         app = application as MainApp
 
@@ -42,6 +51,7 @@ class RecipeActivity : AppCompatActivity() {
             recipe = intent.extras?.getParcelable("recipe_edit")!!
             binding.recipeName.setText(recipe.name)
             binding.recipeDescription.setText(recipe.description)
+            binding.mealText.setText(recipe.meal)
             Picasso.get().load(recipe.image).into(binding.recipeImage)
             if (recipe.image != Uri.EMPTY) binding.chooseImage.setText(R.string.change_recipe_image)
             binding.btnAdd.setText(R.string.save_recipe)
@@ -49,7 +59,8 @@ class RecipeActivity : AppCompatActivity() {
         binding.btnAdd.setOnClickListener() {
             recipe.name = binding.recipeName.text.toString()
             recipe.description = binding.recipeDescription.text.toString()
-            if (recipe.name.isEmpty()) {
+            recipe.meal = binding.mealText.text.toString()
+            if (recipe.name.isEmpty() or recipe.meal.contentEquals("What type of meal is it?")) {
                 Snackbar.make(it,R.string.enter_recipe_name, Snackbar.LENGTH_LONG)
                     .show()
             }
