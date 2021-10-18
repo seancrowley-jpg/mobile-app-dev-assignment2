@@ -35,7 +35,7 @@ class RecipeAdapter constructor(private var recipes: List<RecipeModel>, private 
             binding.recipeName.text = recipe.name
             binding.recipeDescription.text = recipe.description
             Picasso.get().load(recipe.image).resize(200,200).into(binding.imageIcon)
-            binding.root.setOnClickListener { listener.onRecipeClick(recipe) }
+            binding.editRecipe.setOnClickListener { listener.onRecipeClick(recipe) }
         }
     }
 }
