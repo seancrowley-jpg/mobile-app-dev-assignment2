@@ -106,6 +106,13 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="16sp" />
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="vertical"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
                 <Button
                     android:id="@+id/chooseImage"
                     android:layout_width="match_parent"

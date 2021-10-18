@@ -8,9 +8,12 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import org.wit.recipes.R
+import org.wit.recipes.adapters.IngredientAdapter
+import org.wit.recipes.adapters.RecipeAdapter
 import org.wit.recipes.databinding.ActivityRecipeBinding
 import org.wit.recipes.helpers.showImagePicker
 import org.wit.recipes.main.MainApp
@@ -28,11 +31,17 @@ class RecipeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRecipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         var edit = false
-        var ingredients: MutableList<String?> = ArrayList()
+
+        val layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.layoutManager = layoutManager
+        binding.recyclerView.adapter = IngredientAdapter(recipe.ingredients)
+
         binding.toolbarAdd.title = title
         setSupportActionBar(binding.toolbarAdd)
         registerImagePickerCallback()
+
         var meals = resources.getStringArray(R.array.meals)
         binding.mealPicker.minValue = 0
         binding.mealPicker.maxValue= 2
@@ -53,8 +62,7 @@ class RecipeActivity : AppCompatActivity() {
             binding.recipeName.setText(recipe.name)
             binding.recipeDescription.setText(recipe.description)
             binding.mealText.setText(recipe.meal)
-            //ingredients.
-            //i("ingredients $ingredients")
+            binding.recyclerView.adapter = IngredientAdapter(recipe.ingredients)
             Picasso.get().load(recipe.image).into(binding.recipeImage)
             if (recipe.image != Uri.EMPTY) binding.chooseImage.setText(R.string.change_recipe_image)
             binding.btnAdd.setText(R.string.save_recipe)
@@ -63,9 +71,6 @@ class RecipeActivity : AppCompatActivity() {
             recipe.name = binding.recipeName.text.toString()
             recipe.description = binding.recipeDescription.text.toString()
             recipe.meal = binding.mealText.text.toString()
-            i("ingredients ${recipe.ingredients}")
-            //recipe.ingredients.addAll(ingredients)
-            ingredients.clear()
             if (recipe.name.isEmpty() or recipe.meal.contentEquals("What type of meal is it?")) {
                 Snackbar.make(it,R.string.enter_recipe_name, Snackbar.LENGTH_LONG)
                     .show()
@@ -86,6 +91,8 @@ class RecipeActivity : AppCompatActivity() {
         binding.btnAddIngredient.setOnClickListener() {
             recipe.ingredients.add(binding.ingredientText.text.toString())
             i("ingredients ${recipe.ingredients}")
+            binding.recyclerView.adapter = IngredientAdapter(recipe.ingredients)
+            binding.recyclerView.adapter?.notifyDataSetChanged()
         }
     }
 
