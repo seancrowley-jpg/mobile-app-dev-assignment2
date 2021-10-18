@@ -9,6 +9,7 @@ import org.wit.recipes.models.RecipeModel
 
 interface RecipeListener {
     fun onRecipeClick(recipe: RecipeModel)
+    fun onDeleteClick(recipe: RecipeModel)
 }
 
 class RecipeAdapter constructor(private var recipes: List<RecipeModel>, private val listener: RecipeListener) :
@@ -35,7 +36,9 @@ class RecipeAdapter constructor(private var recipes: List<RecipeModel>, private 
             binding.recipeName.text = recipe.name
             binding.recipeDescription.text = recipe.description
             Picasso.get().load(recipe.image).resize(200,200).into(binding.imageIcon)
-            binding.editRecipe.setOnClickListener { listener.onRecipeClick(recipe) }
+            binding.root.setOnClickListener { listener.onRecipeClick(recipe) }
+            binding.btnDeleteRecipe.setOnClickListener { listener.onDeleteClick(recipe) }
+
         }
     }
 }

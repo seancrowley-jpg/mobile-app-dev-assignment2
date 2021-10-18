@@ -59,6 +59,12 @@ class RecipeListActivity : AppCompatActivity(), RecipeListener {
         refreshIntentLauncher.launch(launcherIntent)
     }
 
+    override fun onDeleteClick(recipe: RecipeModel) {
+        var recipes = app.recipes.findAll()
+        recipes.remove(recipe)
+        binding.recyclerView.adapter?.notifyDataSetChanged()
+    }
+
 
     private fun registerRefreshCallback() {
         refreshIntentLauncher =

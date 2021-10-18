@@ -11,7 +11,7 @@ internal fun getId(): Long {
 class RecipeMemStore: RecipeStore {
     val recipes = ArrayList<RecipeModel>()
 
-    override fun findAll(): List<RecipeModel> {
+    override fun findAll(): MutableList<RecipeModel> {
         return recipes
     }
 
