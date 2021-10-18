@@ -16,7 +16,7 @@
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/teal_200"
+            android:background="@color/teal_700"
             android:fitsSystemWindows="true"
             app:elevation="0dip"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -81,6 +81,31 @@
                     android:layout_width="match_parent"
                     android:layout_height="107dp" />
 
+                <EditText
+                    android:id="@+id/ingredientText"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_margin="8dp"
+                    android:hint="@string/hint_ingredient"
+                    android:inputType="text"
+                    android:maxLength="25"
+                    android:maxLines="1"
+                    android:padding="8dp"
+                    android:textColor="@color/teal_700"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/btnAddIngredient"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:background="@color/colorAccent"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/button_addIngredient"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16sp" />
+
                 <Button
                     android:id="@+id/chooseImage"
                     android:layout_width="match_parent"
@@ -92,6 +117,7 @@
                     android:text="@string/button_addImage"
                     android:textColor="@color/colorPrimary"
                     android:textSize="16sp" />
+
 
                 <ImageView
                     android:id="@+id/recipeImage"

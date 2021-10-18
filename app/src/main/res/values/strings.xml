@@ -11,6 +11,8 @@
     <string name="select_recipe_image">Select an image for the Recipe</string>
     <string name="change_recipe_image">Change Recipe image</string>
     <string name="pick_meal">What type of meal is it?</string>
+    <string name="hint_ingredient">Add an Ingredient and hit the button</string>
+    <string name="button_addIngredient">Add Ingredient</string>
     <string-array name="meals">
         <item>Breakfast</item>
         <item>Lunch</item>

@@ -29,6 +29,7 @@ class RecipeActivity : AppCompatActivity() {
         binding = ActivityRecipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         var edit = false
+        var ingredients: MutableList<String?> = ArrayList()
         binding.toolbarAdd.title = title
         setSupportActionBar(binding.toolbarAdd)
         registerImagePickerCallback()
@@ -52,6 +53,8 @@ class RecipeActivity : AppCompatActivity() {
             binding.recipeName.setText(recipe.name)
             binding.recipeDescription.setText(recipe.description)
             binding.mealText.setText(recipe.meal)
+            //ingredients.
+            //i("ingredients $ingredients")
             Picasso.get().load(recipe.image).into(binding.recipeImage)
             if (recipe.image != Uri.EMPTY) binding.chooseImage.setText(R.string.change_recipe_image)
             binding.btnAdd.setText(R.string.save_recipe)
@@ -60,6 +63,9 @@ class RecipeActivity : AppCompatActivity() {
             recipe.name = binding.recipeName.text.toString()
             recipe.description = binding.recipeDescription.text.toString()
             recipe.meal = binding.mealText.text.toString()
+            i("ingredients ${recipe.ingredients}")
+            //recipe.ingredients.addAll(ingredients)
+            ingredients.clear()
             if (recipe.name.isEmpty() or recipe.meal.contentEquals("What type of meal is it?")) {
                 Snackbar.make(it,R.string.enter_recipe_name, Snackbar.LENGTH_LONG)
                     .show()
@@ -76,6 +82,10 @@ class RecipeActivity : AppCompatActivity() {
         }
         binding.chooseImage.setOnClickListener {
             showImagePicker(imageIntentLauncher)
+        }
+        binding.btnAddIngredient.setOnClickListener() {
+            recipe.ingredients.add(binding.ingredientText.text.toString())
+            i("ingredients ${recipe.ingredients}")
         }
     }
 

@@ -28,6 +28,8 @@ class RecipeMemStore: RecipeStore {
             foundRecipe.description = recipe.description
             foundRecipe.meal = recipe.meal
             foundRecipe.image = recipe.image
+            foundRecipe.ingredients.clear()
+            foundRecipe.ingredients.addAll(recipe.ingredients)
             logAll()
         }
     }
