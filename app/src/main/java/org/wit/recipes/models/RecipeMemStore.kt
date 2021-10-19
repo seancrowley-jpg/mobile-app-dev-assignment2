@@ -34,6 +34,10 @@ class RecipeMemStore: RecipeStore {
         }
     }
 
+    override fun delete(recipe: RecipeModel) {
+        recipes.remove(recipe)
+    }
+
     fun logAll() {
         recipes.forEach{ i("${it}") }
     }

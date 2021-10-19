@@ -60,8 +60,7 @@ class RecipeListActivity : AppCompatActivity(), RecipeListener {
     }
 
     override fun onDeleteClick(recipe: RecipeModel) {
-        var recipes = app.recipes.findAll()
-        recipes.remove(recipe)
+        app.recipes.delete(recipe)
         binding.recyclerView.adapter?.notifyDataSetChanged()
     }
 

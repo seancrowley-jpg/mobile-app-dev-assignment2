@@ -13,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import org.wit.recipes.R
 import org.wit.recipes.adapters.IngredientAdapter
+import org.wit.recipes.adapters.IngredientListener
 import org.wit.recipes.adapters.RecipeAdapter
 import org.wit.recipes.databinding.ActivityRecipeBinding
 import org.wit.recipes.helpers.showImagePicker
@@ -20,7 +21,7 @@ import org.wit.recipes.main.MainApp
 import org.wit.recipes.models.RecipeModel
 import timber.log.Timber.i
 
-class RecipeActivity : AppCompatActivity() {
+class RecipeActivity : AppCompatActivity(), IngredientListener {
     private lateinit var binding: ActivityRecipeBinding
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
     var recipe = RecipeModel()
@@ -36,7 +37,7 @@ class RecipeActivity : AppCompatActivity() {
 
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = IngredientAdapter(recipe.ingredients)
+        binding.recyclerView.adapter = IngredientAdapter(recipe.ingredients, this)
 
         binding.toolbarAdd.title = title
         setSupportActionBar(binding.toolbarAdd)
@@ -62,7 +63,7 @@ class RecipeActivity : AppCompatActivity() {
             binding.recipeName.setText(recipe.name)
             binding.recipeDescription.setText(recipe.description)
             binding.mealText.setText(recipe.meal)
-            binding.recyclerView.adapter = IngredientAdapter(recipe.ingredients)
+            binding.recyclerView.adapter = IngredientAdapter(recipe.ingredients,this)
             Picasso.get().load(recipe.image).into(binding.recipeImage)
             if (recipe.image != Uri.EMPTY) binding.chooseImage.setText(R.string.change_recipe_image)
             binding.btnAdd.setText(R.string.save_recipe)
@@ -91,7 +92,7 @@ class RecipeActivity : AppCompatActivity() {
         binding.btnAddIngredient.setOnClickListener() {
             recipe.ingredients.add(binding.ingredientText.text.toString())
             i("ingredients ${recipe.ingredients}")
-            binding.recyclerView.adapter = IngredientAdapter(recipe.ingredients)
+            binding.recyclerView.adapter = IngredientAdapter(recipe.ingredients,this)
             binding.recyclerView.adapter?.notifyDataSetChanged()
         }
     }
@@ -108,6 +109,11 @@ class RecipeActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onIngredientBtnClick(ingredient :String?) {
+        recipe.ingredients.remove(ingredient)
+        binding.recyclerView.adapter?.notifyDataSetChanged()
     }
 
     private fun registerImagePickerCallback() {
