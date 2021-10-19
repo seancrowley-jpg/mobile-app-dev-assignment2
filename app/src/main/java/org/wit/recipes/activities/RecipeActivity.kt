@@ -15,6 +15,7 @@ import org.wit.recipes.R
 import org.wit.recipes.adapters.IngredientAdapter
 import org.wit.recipes.adapters.IngredientListener
 import org.wit.recipes.adapters.RecipeAdapter
+import org.wit.recipes.adapters.StepsAdapter
 import org.wit.recipes.databinding.ActivityRecipeBinding
 import org.wit.recipes.helpers.showImagePicker
 import org.wit.recipes.main.MainApp
@@ -36,8 +37,11 @@ class RecipeActivity : AppCompatActivity(), IngredientListener {
         var edit = false
 
         val layoutManager = LinearLayoutManager(this)
+        val stepsLayoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
+        binding.stepsRecyclerView.layoutManager = stepsLayoutManager
         binding.recyclerView.adapter = IngredientAdapter(recipe.ingredients, this)
+        binding.stepsRecyclerView.adapter = StepsAdapter(recipe.steps)
 
         binding.toolbarAdd.title = title
         setSupportActionBar(binding.toolbarAdd)
@@ -64,6 +68,7 @@ class RecipeActivity : AppCompatActivity(), IngredientListener {
             binding.recipeDescription.setText(recipe.description)
             binding.mealText.setText(recipe.meal)
             binding.recyclerView.adapter = IngredientAdapter(recipe.ingredients,this)
+            binding.stepsRecyclerView.adapter = StepsAdapter(recipe.steps)
             Picasso.get().load(recipe.image).into(binding.recipeImage)
             if (recipe.image != Uri.EMPTY) binding.chooseImage.setText(R.string.change_recipe_image)
             binding.btnAdd.setText(R.string.save_recipe)
@@ -97,6 +102,9 @@ class RecipeActivity : AppCompatActivity(), IngredientListener {
         }
         binding.btnAddStep.setOnClickListener() {
             recipe.steps.add(binding.stepsText.text.toString())
+            i("Steps ${recipe.steps}")
+            binding.stepsRecyclerView.adapter = StepsAdapter(recipe.steps)
+            binding.stepsRecyclerView.adapter?.notifyDataSetChanged()
         }
     }
 
