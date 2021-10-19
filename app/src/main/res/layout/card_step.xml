@@ -10,7 +10,7 @@
 
 
     <Button
-        android:id="@+id/btnDeleteIngredient"
+        android:id="@+id/btnDeleteStep"
         android:layout_width="57dp"
         android:layout_height="match_parent"
         android:layout_marginTop="5dp"
@@ -22,17 +22,31 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/ingredientName"
-        android:layout_width="343dp"
+        android:id="@+id/stepDescription"
+        android:layout_width="310dp"
         android:layout_height="match_parent"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="4dp"
         android:lines="4"
         android:maxLines="4"
         android:textAlignment="viewStart"
-        android:textSize="20sp"
+        android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
+
+    <TextView
+        android:id="@+id/stepNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Step"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/stepDescription"
+        app:layout_constraintHorizontal_bias="0.146"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.454" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
