@@ -95,6 +95,9 @@ class RecipeActivity : AppCompatActivity(), IngredientListener {
             binding.recyclerView.adapter = IngredientAdapter(recipe.ingredients,this)
             binding.recyclerView.adapter?.notifyDataSetChanged()
         }
+        binding.btnAddStep.setOnClickListener() {
+            recipe.steps.add(binding.stepsText.text.toString())
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

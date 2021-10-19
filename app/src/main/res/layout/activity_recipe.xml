@@ -113,6 +113,31 @@
                     android:scrollbars="vertical"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
+                <EditText
+                    android:id="@+id/stepsText"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_margin="8dp"
+                    android:hint="@string/hint_steps"
+                    android:inputType="text"
+                    android:maxLength="25"
+                    android:maxLines="1"
+                    android:padding="8dp"
+                    android:textColor="@color/teal_700"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/btnAddStep"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:background="@color/colorAccent"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/button_addStep"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16sp" />
+
                 <Button
                     android:id="@+id/chooseImage"
                     android:layout_width="match_parent"

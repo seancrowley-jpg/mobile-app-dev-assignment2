@@ -13,6 +13,8 @@
     <string name="pick_meal">What type of meal is it?</string>
     <string name="hint_ingredient">Add an Ingredient and hit the button</string>
     <string name="button_addIngredient">Add Ingredient</string>
+    <string name="hint_steps">Enter the steps to create the recipe</string>
+    <string name="button_addStep">Add Step</string>
     <string-array name="meals">
         <item>Breakfast</item>
         <item>Lunch</item>
