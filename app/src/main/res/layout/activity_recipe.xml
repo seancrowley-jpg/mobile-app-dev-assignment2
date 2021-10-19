@@ -46,8 +46,8 @@
                     android:layout_margin="8dp"
                     android:hint="@string/hint_recipeName"
                     android:inputType="text"
-                    android:maxLength="25"
-                    android:maxLines="1"
+                    android:maxLength="90"
+                    android:maxLines="2"
                     android:padding="8dp"
                     android:textColor="@color/teal_700"
                     android:textSize="14sp" />
@@ -58,13 +58,14 @@
                     android:layout_height="45dp"
                     android:layout_margin="8dp"
                     android:hint="@string/hint_recipeDescription"
-                    android:inputType="text"
-                    android:maxLength="25"
-                    android:maxLines="1"
+                    android:ems="10"
+                    android:gravity="start|top"
+                    android:inputType="textMultiLine"
+                    android:maxLength="90"
+                    android:lines="4"
                     android:padding="8dp"
                     android:textColor="@color/teal_700"
                     android:textSize="14sp" />
-
 
                 <TextView
                     android:id="@+id/mealText"
@@ -74,7 +75,6 @@
                     android:text="@string/pick_meal"
                     android:gravity="center_horizontal"
                     />
-
 
                 <NumberPicker
                     android:id="@+id/mealPicker"
@@ -87,9 +87,12 @@
                     android:layout_height="45dp"
                     android:layout_margin="8dp"
                     android:hint="@string/hint_ingredient"
-                    android:inputType="text"
-                    android:maxLength="25"
-                    android:maxLines="1"
+                    android:ems="10"
+                    android:gravity="start|top"
+                    android:inputType="textMultiLine"
+                    android:maxLength="90"
+                    android:maxLines="4"
+                    android:lines="4"
                     android:padding="8dp"
                     android:textColor="@color/teal_700"
                     android:textSize="14sp" />
@@ -119,9 +122,12 @@
                     android:layout_height="45dp"
                     android:layout_margin="8dp"
                     android:hint="@string/hint_steps"
-                    android:inputType="text"
-                    android:maxLength="25"
-                    android:maxLines="1"
+                    android:ems="10"
+                    android:gravity="start|top"
+                    android:inputType="textMultiLine"
+                    android:maxLength="180"
+                    android:maxLines="4"
+                    android:lines="4"
                     android:padding="8dp"
                     android:textColor="@color/teal_700"
                     android:textSize="14sp" />
