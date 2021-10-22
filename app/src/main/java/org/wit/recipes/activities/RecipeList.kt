@@ -33,7 +33,7 @@ class RecipeListActivity : AppCompatActivity(), RecipeListener {
 
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = RecipeAdapter(app.recipes.findAll(),this)
+        loadRecipes()
         binding.toolbar.title = title
         setSupportActionBar(binding.toolbar)
     }
@@ -64,10 +64,19 @@ class RecipeListActivity : AppCompatActivity(), RecipeListener {
         binding.recyclerView.adapter?.notifyDataSetChanged()
     }
 
+    private fun loadRecipes() {
+        showRecipes(app.recipes.findAll())
+    }
+
+    fun showRecipes (recipes: List<RecipeModel>) {
+        binding.recyclerView.adapter = RecipeAdapter(recipes, this)
+        binding.recyclerView.adapter?.notifyDataSetChanged()
+    }
+
 
     private fun registerRefreshCallback() {
         refreshIntentLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            { binding.recyclerView.adapter?.notifyDataSetChanged() }
+            { loadRecipes() }
     }
 }
