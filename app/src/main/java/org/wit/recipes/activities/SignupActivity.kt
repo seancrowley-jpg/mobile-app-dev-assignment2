@@ -3,6 +3,8 @@ package org.wit.recipes.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.result.ActivityResultLauncher
 import org.wit.recipes.R
 import org.wit.recipes.databinding.ActivitySignupBinding
@@ -20,6 +22,8 @@ class SignupActivity : AppCompatActivity() {
         binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
         app = application as MainApp
+        binding.toolbarSignup.title = title
+        setSupportActionBar(binding.toolbarSignup)
 
         binding.btnSignup.setOnClickListener() {
             user.name = binding.signupName.text.toString()
@@ -31,4 +35,21 @@ class SignupActivity : AppCompatActivity() {
             Timber.i("users ${app.users}}")
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_signup, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_login -> {
+                val launcherIntent = Intent(this, LoginActivity::class.java)
+                startActivity(launcherIntent)
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+
 }

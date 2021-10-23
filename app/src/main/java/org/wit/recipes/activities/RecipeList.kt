@@ -49,6 +49,10 @@ class RecipeListActivity : AppCompatActivity(), RecipeListener {
                 val launcherIntent = Intent(this, RecipeActivity::class.java)
                 refreshIntentLauncher.launch(launcherIntent)
             }
+            R.id.item_logout -> {
+                val launcherIntent = Intent(this, LoginActivity::class.java)
+                refreshIntentLauncher.launch(launcherIntent)
+            }
         }
         return super.onOptionsItemSelected(item)
     }
