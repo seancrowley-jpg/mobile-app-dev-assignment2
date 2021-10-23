@@ -21,5 +21,6 @@ class MainApp : Application() {
         //recipes.add(RecipeModel("One", "About one..."))
         //recipes.add(RecipeModel("Two", "About two..."))
         //recipes.add(RecipeModel("Three", "About three..."))
+        users.signup(UserModel(1,"Homer","homer@simpson.com","password"))
     }
 }
