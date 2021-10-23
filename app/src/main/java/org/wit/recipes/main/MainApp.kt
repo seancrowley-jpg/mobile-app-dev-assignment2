@@ -9,7 +9,7 @@ class MainApp : Application() {
 
     //val recipes = ArrayList<RecipeModel>()
     lateinit var recipes: RecipeStore
-    val users = UserMemStore()
+    lateinit var users : UserStore
 
 
     override fun onCreate() {
@@ -18,9 +18,8 @@ class MainApp : Application() {
         i("RecipeApp started")
         //recipes = RecipeMemStore()
         recipes = RecipeJSONStore(applicationContext)
-        //recipes.add(RecipeModel("One", "About one..."))
-        //recipes.add(RecipeModel("Two", "About two..."))
-        //recipes.add(RecipeModel("Three", "About three..."))
-        users.signup(UserModel(1,"Homer","homer@simpson.com","password"))
+        //users = UserMemStore()
+        users = UserJSONStore(applicationContext)
+        //users.signup(UserModel(1,"Homer","homer@simpson.com","password"))
     }
 }
