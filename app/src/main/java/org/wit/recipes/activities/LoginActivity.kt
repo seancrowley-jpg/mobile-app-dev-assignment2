@@ -29,7 +29,8 @@ class LoginActivity : AppCompatActivity() {
         binding.btnLogin.setOnClickListener() {
             user.email = binding.loginEmail.text.toString()
             user.password = binding.loginPassword.text.toString()
-            if (app.users.login(user)) {
+            if (app.users.checkPassword(user)) {
+                app.currentUser = app.users.login(user)
                 val launcherIntent = Intent(this, RecipeListActivity::class.java)
                 startActivity(launcherIntent)
             }

@@ -10,6 +10,7 @@ class MainApp : Application() {
     //val recipes = ArrayList<RecipeModel>()
     lateinit var recipes: RecipeStore
     lateinit var users : UserStore
+    var currentUser: UserModel? = null
 
 
     override fun onCreate() {
@@ -20,6 +21,6 @@ class MainApp : Application() {
         recipes = RecipeJSONStore(applicationContext)
         //users = UserMemStore()
         users = UserJSONStore(applicationContext)
-        //users.signup(UserModel(1,"Homer","homer@simpson.com","password"))
+        currentUser
     }
 }

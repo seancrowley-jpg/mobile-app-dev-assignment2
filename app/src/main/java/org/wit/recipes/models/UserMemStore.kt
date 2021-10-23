@@ -18,7 +18,17 @@ class UserMemStore : UserStore {
         logAll()
     }
 
-    override fun login(user: UserModel): Boolean {
+    override fun login(user: UserModel): UserModel?{
+        var foundUser: UserModel? = users.find { u -> u.email == user.email }
+        if (foundUser != null) {
+            if (foundUser.password == user.password)
+                logAll()
+            return foundUser
+        }
+        return null
+    }
+
+    override fun checkPassword(user: UserModel): Boolean {
         var foundUser: UserModel? = users.find { u -> u.email == user.email }
         if (foundUser != null) {
             if (foundUser.password == user.password)

@@ -34,7 +34,7 @@ class RecipeListActivity : AppCompatActivity(), RecipeListener {
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
         loadRecipes()
-        binding.toolbar.title = title
+        binding.toolbar.title = "Welcome ${app.currentUser?.name}"
         setSupportActionBar(binding.toolbar)
     }
 

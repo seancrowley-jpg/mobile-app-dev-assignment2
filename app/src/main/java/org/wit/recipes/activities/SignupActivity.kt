@@ -30,6 +30,7 @@ class SignupActivity : AppCompatActivity() {
             user.email = binding.signupEmail.text.toString()
             user.password = binding.signupPassword.text.toString()
             app.users.signup(user.copy())
+            app.currentUser = user
             val launcherIntent = Intent(this, RecipeListActivity::class.java)
             startActivity(launcherIntent)
             Timber.i("users ${app.users}}")
