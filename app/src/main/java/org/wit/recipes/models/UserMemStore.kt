@@ -23,7 +23,6 @@ class UserMemStore : UserStore {
         if (foundUser != null) {
             if (foundUser.password == user.password)
                 return true
-
         }
         return false
     }
