@@ -34,7 +34,7 @@ class RecipeListActivity : AppCompatActivity(), RecipeListener {
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
         loadRecipes()
-        binding.toolbar.title = title
+        binding.toolbar.title = "Welcome ${app.currentUser?.name}"
         setSupportActionBar(binding.toolbar)
     }
 
@@ -47,6 +47,10 @@ class RecipeListActivity : AppCompatActivity(), RecipeListener {
         when (item.itemId) {
             R.id.item_add -> {
                 val launcherIntent = Intent(this, RecipeActivity::class.java)
+                refreshIntentLauncher.launch(launcherIntent)
+            }
+            R.id.item_logout -> {
+                val launcherIntent = Intent(this, LoginActivity::class.java)
                 refreshIntentLauncher.launch(launcherIntent)
             }
         }
