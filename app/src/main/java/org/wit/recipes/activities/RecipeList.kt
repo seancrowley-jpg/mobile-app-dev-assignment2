@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.inputmethod.EditorInfo
+import android.widget.SearchView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isEmpty
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.wit.recipes.R
 import org.wit.recipes.adapters.RecipeAdapter
@@ -22,6 +25,7 @@ class RecipeListActivity : AppCompatActivity(), RecipeListener {
 
     private lateinit var binding: ActivityRecipeListBinding
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
+    private lateinit var adapter: RecipeAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,13 +38,29 @@ class RecipeListActivity : AppCompatActivity(), RecipeListener {
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
         loadRecipes()
+        binding.recyclerView.adapter = adapter
         binding.toolbar.title = "Welcome ${app.currentUser?.name}"
         setSupportActionBar(binding.toolbar)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
-        return super.onCreateOptionsMenu(menu)
+        val searchItem = menu.findItem(R.id.item_search)
+        val searchView = searchItem?.actionView as SearchView
+        searchView.imeOptions = EditorInfo.IME_ACTION_DONE
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                adapter.filter.filter(p0)
+                //if(p0.isNullOrBlank()) loadRecipes()
+                return true
+            }
+
+        })
+     return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -72,8 +92,8 @@ class RecipeListActivity : AppCompatActivity(), RecipeListener {
         showRecipes(app.recipes.findAll())
     }
 
-    fun showRecipes (recipes: List<RecipeModel>) {
-        binding.recyclerView.adapter = RecipeAdapter(recipes, this)
+    fun showRecipes (recipes: MutableList<RecipeModel>) {
+        adapter = RecipeAdapter(recipes, this)
         binding.recyclerView.adapter?.notifyDataSetChanged()
     }
 
