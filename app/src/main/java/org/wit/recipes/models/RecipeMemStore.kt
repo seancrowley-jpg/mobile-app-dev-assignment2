@@ -40,6 +40,11 @@ class RecipeMemStore: RecipeStore {
         recipes.remove(recipe)
     }
 
+    override fun deleteAll(): MutableList<RecipeModel>{
+        recipes.removeAll(recipes)
+        return recipes
+    }
+
     fun logAll() {
         recipes.forEach{ i("${it}") }
     }

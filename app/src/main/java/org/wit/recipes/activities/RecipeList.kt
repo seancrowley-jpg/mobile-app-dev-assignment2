@@ -73,6 +73,10 @@ class RecipeListActivity : AppCompatActivity(), RecipeListener {
                 val launcherIntent = Intent(this, LoginActivity::class.java)
                 refreshIntentLauncher.launch(launcherIntent)
             }
+            R.id.item_delete_all -> {
+                app.recipes.deleteAll()
+                binding.recyclerView.adapter?.notifyDataSetChanged()
+            }
         }
         return super.onOptionsItemSelected(item)
     }

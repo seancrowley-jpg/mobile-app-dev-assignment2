@@ -62,6 +62,12 @@ class RecipeJSONStore(private val context: Context) : RecipeStore {
         serialize()
     }
 
+    override fun deleteAll(): MutableList<RecipeModel>{
+        recipes.removeAll(recipes)
+        serialize()
+        return recipes
+    }
+
     private fun serialize() {
         val jsonString = gsonBuilder.toJson(recipes, listType)
         write(context, JSON_FILE, jsonString)

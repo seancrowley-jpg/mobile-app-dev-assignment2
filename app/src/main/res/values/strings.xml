@@ -16,6 +16,9 @@
     <string name="hint_steps">Enter the steps to create the recipe</string>
     <string name="button_addStep">Add Step</string>
     <string name="splashscreen_text">Recipe App</string>
+    <string name="menu_logout">Logout</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_delete_all">Delete All</string>
     <string-array name="meals">
         <item>Breakfast</item>
         <item>Lunch</item>
