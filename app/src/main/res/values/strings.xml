@@ -19,6 +19,7 @@
     <string name="menu_logout">Logout</string>
     <string name="menu_search">Search</string>
     <string name="menu_delete_all">Delete All</string>
+    <string name="menu_delete_account">Delete Account</string>
     <string-array name="meals">
         <item>Breakfast</item>
         <item>Lunch</item>

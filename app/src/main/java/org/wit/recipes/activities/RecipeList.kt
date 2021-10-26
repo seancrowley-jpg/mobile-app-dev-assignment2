@@ -77,6 +77,11 @@ class RecipeListActivity : AppCompatActivity(), RecipeListener {
                 app.recipes.deleteAll()
                 binding.recyclerView.adapter?.notifyDataSetChanged()
             }
+            R.id.item_delete_account -> {
+                app.users.deleteUser(app.currentUser)
+                val launcherIntent = Intent(this, LoginActivity::class.java)
+                refreshIntentLauncher.launch(launcherIntent)
+            }
         }
         return super.onOptionsItemSelected(item)
     }

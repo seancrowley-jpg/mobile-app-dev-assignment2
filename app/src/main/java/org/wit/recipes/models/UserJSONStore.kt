@@ -55,6 +55,11 @@ class UserJSONStore (private val context: Context) : UserStore{
         return false
     }
 
+    override fun deleteUser(user: UserModel?) {
+        users.remove(user)
+        serialize()
+    }
+
     private fun serialize() {
         val jsonString = userGsonBuilder.toJson(users, userListType)
         write(context, USER_JSON_FILE, jsonString)

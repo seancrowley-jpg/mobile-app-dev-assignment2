@@ -37,6 +37,10 @@ class UserMemStore : UserStore {
         return false
     }
 
+    override fun deleteUser(user: UserModel?) {
+        users.remove(user)
+    }
+
     fun logAll() {
         users.forEach{ Timber.i("${it}") }
     }

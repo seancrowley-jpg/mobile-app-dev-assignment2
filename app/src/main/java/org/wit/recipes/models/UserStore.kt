@@ -5,4 +5,5 @@ interface UserStore {
     fun signup(user: UserModel)
     fun login(user: UserModel): UserModel?
     fun checkPassword(user: UserModel): Boolean
+    fun deleteUser(user: UserModel?)
 }
