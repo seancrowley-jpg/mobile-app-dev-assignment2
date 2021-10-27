@@ -1,13 +1,19 @@
 package org.wit.recipes.activities
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
@@ -18,10 +24,14 @@ import org.wit.recipes.helpers.showImagePicker
 import org.wit.recipes.main.MainApp
 import org.wit.recipes.models.RecipeModel
 import timber.log.Timber.i
+import java.io.File
 
+private const val REQUEST_CODE = 1
 class RecipeActivity : AppCompatActivity(), IngredientListener, StepListener {
     private lateinit var binding: ActivityRecipeBinding
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
+    private lateinit var photoFile: File
+    private var FILE_NAME = "photo"
     var recipe = RecipeModel()
     lateinit var app: MainApp
 
@@ -91,6 +101,17 @@ class RecipeActivity : AppCompatActivity(), IngredientListener, StepListener {
         binding.chooseImage.setOnClickListener {
             showImagePicker(imageIntentLauncher)
         }
+        binding.btnTakePic.setOnClickListener {
+            val takePicIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            photoFile = getPhotoFile(FILE_NAME)
+            val fileProvider = FileProvider.getUriForFile(this, "org.wit.recipes.fileprovider", photoFile)
+            takePicIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider)
+            if(takePicIntent.resolveActivity(this.packageManager) != null)
+                startActivityForResult(takePicIntent, REQUEST_CODE)
+            else
+                Toast.makeText(this, "Cant open camera", Toast.LENGTH_SHORT)
+
+        }
         binding.btnAddIngredient.setOnClickListener() {
             recipe.ingredients.add(binding.ingredientText.text.toString())
             i("ingredients ${recipe.ingredients}")
@@ -127,6 +148,23 @@ class RecipeActivity : AppCompatActivity(), IngredientListener, StepListener {
     override fun onStepBtnClick(step: String?) {
         recipe.steps.remove(step)
         binding.stepsRecyclerView.adapter?.notifyDataSetChanged()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if(requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK)
+        {
+            recipe.image = photoFile.toUri()
+            i("Image ${recipe.image}")
+            Picasso.get().load(recipe.image).into(binding.recipeImage)
+            binding.chooseImage.setText(R.string.change_recipe_image)
+        }
+        else
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun getPhotoFile(fileName: String): File {
+        val storageDirectory = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(fileName, ".jpg", storageDirectory)
     }
 
     private fun registerImagePickerCallback() {
