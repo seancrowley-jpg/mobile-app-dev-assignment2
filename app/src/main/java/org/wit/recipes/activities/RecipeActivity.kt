@@ -26,10 +26,10 @@ import org.wit.recipes.models.RecipeModel
 import timber.log.Timber.i
 import java.io.File
 
-private const val REQUEST_CODE = 1
 class RecipeActivity : AppCompatActivity(), IngredientListener, StepListener {
     private lateinit var binding: ActivityRecipeBinding
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
+    private lateinit var cameraIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var photoFile: File
     private var FILE_NAME = "photo"
     var recipe = RecipeModel()
@@ -53,7 +53,7 @@ class RecipeActivity : AppCompatActivity(), IngredientListener, StepListener {
         binding.toolbarAdd.title = title
         setSupportActionBar(binding.toolbarAdd)
         registerImagePickerCallback()
-
+        registerCameraCallback()
         var meals = resources.getStringArray(R.array.meals)
         binding.mealPicker.minValue = 0
         binding.mealPicker.maxValue= 2
@@ -107,7 +107,7 @@ class RecipeActivity : AppCompatActivity(), IngredientListener, StepListener {
             val fileProvider = FileProvider.getUriForFile(this, "org.wit.recipes.fileprovider", photoFile)
             takePicIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider)
             if(takePicIntent.resolveActivity(this.packageManager) != null)
-                startActivityForResult(takePicIntent, REQUEST_CODE)
+                cameraIntentLauncher.launch(takePicIntent)
             else
                 Toast.makeText(this, "Cant open camera", Toast.LENGTH_SHORT)
 
@@ -150,17 +150,6 @@ class RecipeActivity : AppCompatActivity(), IngredientListener, StepListener {
         binding.stepsRecyclerView.adapter?.notifyDataSetChanged()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if(requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK)
-        {
-            recipe.image = photoFile.toUri()
-            i("Image ${recipe.image}")
-            Picasso.get().load(recipe.image).into(binding.recipeImage)
-            binding.chooseImage.setText(R.string.change_recipe_image)
-        }
-        else
-        super.onActivityResult(requestCode, resultCode, data)
-    }
 
     private fun getPhotoFile(fileName: String): File {
         val storageDirectory = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
@@ -179,6 +168,23 @@ class RecipeActivity : AppCompatActivity(), IngredientListener, StepListener {
                             Picasso.get().load(recipe.image).into(binding.recipeImage)
                             binding.chooseImage.setText(R.string.change_recipe_image)
                         }
+                    }
+                    RESULT_CANCELED -> { } else -> { }
+                }
+            }
+    }
+
+    private fun registerCameraCallback() {
+        cameraIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when(result.resultCode){
+                    RESULT_OK -> {
+                            i("Got Result ${result.data!!.data}")
+                            recipe.image = photoFile.toUri()
+                            i("Image ${recipe.image}")
+                            Picasso.get().load(recipe.image).into(binding.recipeImage)
+                            binding.chooseImage.setText(R.string.change_recipe_image)
                     }
                     RESULT_CANCELED -> { } else -> { }
                 }
