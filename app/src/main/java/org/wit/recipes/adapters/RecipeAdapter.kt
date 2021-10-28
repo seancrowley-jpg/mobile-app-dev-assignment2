@@ -15,6 +15,7 @@ import kotlin.collections.ArrayList
 interface RecipeListener {
     fun onRecipeClick(recipe: RecipeModel)
     fun onDeleteClick(recipe: RecipeModel)
+    fun onEditClick(recipe: RecipeModel)
 }
 
 class RecipeAdapter constructor(private var recipes: MutableList<RecipeModel>, private val listener: RecipeListener) :
@@ -73,6 +74,7 @@ class RecipeAdapter constructor(private var recipes: MutableList<RecipeModel>, p
             binding.recipeName.text = recipe.name
             binding.recipeDescription.text = recipe.description
             Picasso.get().load(recipe.image).resize(200,200).into(binding.imageIcon)
+            binding.btnEditRecipe.setOnClickListener { listener.onEditClick(recipe) }
             binding.root.setOnClickListener { listener.onRecipeClick(recipe) }
             binding.btnDeleteRecipe.setOnClickListener { listener.onDeleteClick(recipe) }
 

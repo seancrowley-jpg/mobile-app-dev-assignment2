@@ -87,6 +87,12 @@ class RecipeListActivity : AppCompatActivity(), RecipeListener {
     }
 
     override fun onRecipeClick(recipe: RecipeModel) {
+        val launcherIntent = Intent(this, ViewRecipeActivity::class.java)
+        launcherIntent.putExtra("recipe_view", recipe)
+        refreshIntentLauncher.launch(launcherIntent)
+    }
+
+    override fun onEditClick(recipe: RecipeModel) {
         val launcherIntent = Intent(this, RecipeActivity::class.java)
         launcherIntent.putExtra("recipe_edit", recipe)
         refreshIntentLauncher.launch(launcherIntent)
