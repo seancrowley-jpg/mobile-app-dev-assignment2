@@ -17,6 +17,7 @@ import org.wit.recipes.adapters.RecipeListener
 import org.wit.recipes.databinding.ActivityRecipeListBinding
 import org.wit.recipes.main.MainApp
 import org.wit.recipes.models.RecipeModel
+import timber.log.Timber.i
 
 
 class RecipeListActivity : AppCompatActivity(), RecipeListener {
@@ -25,11 +26,13 @@ class RecipeListActivity : AppCompatActivity(), RecipeListener {
 
     private lateinit var binding: ActivityRecipeListBinding
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
+    private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var adapter: RecipeAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         registerRefreshCallback()
+        registerMapCallback()
         binding = ActivityRecipeListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -72,6 +75,10 @@ class RecipeListActivity : AppCompatActivity(), RecipeListener {
             R.id.item_logout -> {
                 val launcherIntent = Intent(this, LoginActivity::class.java)
                 refreshIntentLauncher.launch(launcherIntent)
+            }
+            R.id.item_menu -> {
+                val launcherIntent = Intent(this, MapActivity::class.java)
+                mapIntentLauncher.launch(launcherIntent)
             }
             R.id.item_delete_all -> {
                 app.recipes.deleteAll()
@@ -117,5 +124,11 @@ class RecipeListActivity : AppCompatActivity(), RecipeListener {
         refreshIntentLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult())
             { loadRecipes() }
+    }
+
+    private fun registerMapCallback() {
+        mapIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { i("Map Loaded") }
     }
 }
