@@ -26,4 +26,31 @@
         <item>Dinner</item>
     </string-array>
     <string name="title_activity_map">MapActivity</string>
+    <string name="style_json">[
+  {
+    "featureType": "poi",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.business",
+    "stylers": [
+      {
+        "visibility": "on"
+      }
+    ]
+  },
+  {
+    "featureType": "transit",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  }
+]
+</string>
 </resources>
