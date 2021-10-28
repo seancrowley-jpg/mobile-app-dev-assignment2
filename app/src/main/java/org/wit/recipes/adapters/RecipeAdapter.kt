@@ -73,7 +73,7 @@ class RecipeAdapter constructor(private var recipes: MutableList<RecipeModel>, p
             binding.recipeName.text = recipe.name
             binding.recipeDescription.text = recipe.description
             Picasso.get().load(recipe.image).resize(200,200).into(binding.imageIcon)
-            binding.root.setOnClickListener { listener.onRecipeClick(recipe) }
+            binding.btnEditRecipe.setOnClickListener { listener.onRecipeClick(recipe) }
             binding.btnDeleteRecipe.setOnClickListener { listener.onDeleteClick(recipe) }
 
         }
