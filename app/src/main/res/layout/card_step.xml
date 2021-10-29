@@ -17,6 +17,7 @@
         android:layout_marginEnd="3dp"
         android:layout_marginBottom="5dp"
         android:background="@android:drawable/ic_delete"
+        android:contentDescription="@string/deleteStep_content_desc"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,21 +27,21 @@
         android:layout_width="310dp"
         android:layout_height="match_parent"
         android:layout_marginStart="35dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="10dp"
         android:lines="4"
         android:maxLines="4"
         android:textAlignment="viewStart"
-        android:textSize="15sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
+        tools:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit." />
 
     <TextView
         android:id="@+id/stepNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Step"
+        android:text="@string/stepsCard_header"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/stepDescription"

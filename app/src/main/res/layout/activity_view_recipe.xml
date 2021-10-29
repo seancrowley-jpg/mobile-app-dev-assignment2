@@ -38,7 +38,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
@@ -48,7 +48,7 @@
                     android:layout_marginStart="2dp"
                     android:layout_marginTop="10dp"
                     android:textSize="20sp"
-                    android:text="Name" />
+                    android:text="@string/name_header" />
 
                 <TextView
                     android:id="@+id/recipeViewName"
@@ -57,7 +57,7 @@
                     android:layout_marginStart="1dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="1dp"
-                    android:text="Scrambled Eggs On Toast"
+                    tools:text="Scrambled Eggs On Toast"
                     android:textSize="35sp" />
 
                 <TextView
@@ -67,41 +67,42 @@
                     android:layout_marginStart="2dp"
                     android:layout_marginTop="10dp"
                     android:textSize="20sp"
-                    android:text="Meal" />
-
-                <TextView
-                    android:id="@+id/recipeDescriptionHeader"
-                    android:layout_width="409dp"
-                    android:layout_height="25dp"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginTop="4dp"
-                    android:textSize="20sp"
-                    android:text="Description" />
-
-                <TextView
-                    android:id="@+id/recipeViewDescription"
-                    android:layout_width="409dp"
-                    android:layout_height="78dp"
-                    android:layout_marginStart="1dp"
-                    android:layout_marginTop="4dp"
-                    android:text="Scrambled Eggs On Toast"
-                    android:textSize="30sp" />
+                    android:text="@string/meal_header" />
 
                 <ImageView
                     android:id="@+id/recipeViewImage"
-                    android:layout_width="422dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="315dp"
                     android:layout_marginTop="20dp"
+                    android:contentDescription="@string/recipeImage_content_desc"
                     app:srcCompat="@drawable/recipebook" />
 
                 <TextView
-                    android:layout_width="409dp"
-                    android:layout_height="25dp"
+                    android:id="@+id/recipeDescriptionHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="4dp"
+                    android:textSize="20sp"
+                    android:text="@string/desc_header" />
+
+                <TextView
+                    android:id="@+id/recipeViewDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginTop="4dp"
+                    tools:text="Scrambled Eggs On Toast"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="10dp"
                     android:textSize="20sp"
-                    android:text="Ingredients:" />
+                    android:text="@string/ingredients_header" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/ingredientRecyclerRecipeView"
@@ -117,7 +118,7 @@
                     android:layout_marginTop="20dp"
                     android:textSize="20sp"
                     android:layout_marginBottom="10dp"
-                    android:text="Steps:" />
+                    android:text="@string/steps_header" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/stepsRecyclerRecipeView"

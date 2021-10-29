@@ -16,6 +16,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="3dp"
         android:layout_marginBottom="5dp"
+        android:contentDescription="@string/deleteIngredient_content_desc"
         android:background="@android:drawable/ic_delete"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,9 +24,10 @@
 
     <TextView
         android:id="@+id/ingredientName"
-        android:layout_width="343dp"
-        android:layout_height="match_parent"
-        android:layout_marginStart="4dp"
+        android:layout_width="193dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:lines="4"
         android:maxLines="4"
         android:textAlignment="viewStart"
@@ -33,6 +35,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
+        tools:text="Ingredient" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
