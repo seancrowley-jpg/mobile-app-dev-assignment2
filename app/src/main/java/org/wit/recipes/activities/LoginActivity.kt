@@ -34,12 +34,12 @@ class LoginActivity : AppCompatActivity() {
                 binding.loginEmail.requestFocus();
                 binding.loginEmail.setError("Please enter a email");
             }
-            if(user.password.isEmpty())
+            else if(user.password.isEmpty())
             {
                 binding.loginPassword.requestFocus();
                 binding.loginPassword.setError("Please enter a password");
             }
-            if (app.users.checkPassword(user)) {
+            else if (app.users.checkPassword(user)) {
                 app.currentUser = app.users.login(user)
                 val launcherIntent = Intent(this, RecipeListActivity::class.java)
                 startActivity(launcherIntent)

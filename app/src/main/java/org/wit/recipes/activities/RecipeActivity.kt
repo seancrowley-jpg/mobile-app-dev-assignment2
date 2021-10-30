@@ -85,19 +85,24 @@ class RecipeActivity : AppCompatActivity(), IngredientListener, StepListener {
             recipe.name = binding.recipeName.text.toString()
             recipe.description = binding.recipeDescription.text.toString()
             recipe.meal = binding.mealText.text.toString()
-            if (recipe.name.isEmpty() or recipe.meal.contentEquals("What type of meal is it?")) {
-                Snackbar.make(it,R.string.enter_recipe_name, Snackbar.LENGTH_LONG)
-                    .show()
+            if (recipe.name.isEmpty()) {
+                binding.recipeName.requestFocus();
+                binding.recipeName.setError("Please enter a Name for the recipe");
+            }
+            else if (recipe.meal.contentEquals("What type of meal is it?")){
+                Snackbar.make(it,"Please pick a meal type", Snackbar.LENGTH_LONG).show()
             }
             else {
                 if (edit) {
                     app.recipes.update(recipe.copy())
+                    setResult(RESULT_OK)
+                    finish()
                 } else {
                     app.recipes.create(recipe.copy())
+                    setResult(RESULT_OK)
+                    finish()
                 }
             }
-            setResult(RESULT_OK)
-            finish()
         }
         binding.chooseImage.setOnClickListener {
             showImagePicker(imageIntentLauncher)
