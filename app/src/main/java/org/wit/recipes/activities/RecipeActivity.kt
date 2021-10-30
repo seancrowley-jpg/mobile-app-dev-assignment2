@@ -56,7 +56,7 @@ class RecipeActivity : AppCompatActivity(), IngredientListener, StepListener {
         registerCameraCallback()
         var meals = resources.getStringArray(R.array.meals)
         binding.mealPicker.minValue = 0
-        binding.mealPicker.maxValue= 2
+        binding.mealPicker.maxValue= 3
         binding.mealPicker.value = 0
         binding.mealPicker.displayedValues = meals
 

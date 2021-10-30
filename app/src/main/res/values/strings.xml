@@ -48,6 +48,7 @@
         <item>Breakfast</item>
         <item>Lunch</item>
         <item>Dinner</item>
+        <item>Desert</item>
     </string-array>
     <string name="title_activity_map">Map</string>
     <string name="style_json">[
