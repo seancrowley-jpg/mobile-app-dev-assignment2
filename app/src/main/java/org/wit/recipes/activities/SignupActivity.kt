@@ -29,11 +29,28 @@ class SignupActivity : AppCompatActivity() {
             user.name = binding.signupName.text.toString()
             user.email = binding.signupEmail.text.toString()
             user.password = binding.signupPassword.text.toString()
-            app.users.signup(user.copy())
-            app.currentUser = user
-            val launcherIntent = Intent(this, RecipeListActivity::class.java)
-            startActivity(launcherIntent)
-            Timber.i("users ${app.users}}")
+            if(user.name.isEmpty())
+            {
+                binding.signupName.requestFocus();
+                binding.signupName.setError("Please enter a name");
+            }
+            else if(user.email.isEmpty())
+            {
+                binding.signupEmail.requestFocus();
+                binding.signupEmail.setError("Please enter a email");
+            }
+            else if(user.password.isEmpty())
+            {
+                binding.signupPassword.requestFocus();
+                binding.signupPassword.setError("Please enter a password");
+            }
+            else {
+                app.users.signup(user.copy())
+                app.currentUser = user
+                val launcherIntent = Intent(this, RecipeListActivity::class.java)
+                startActivity(launcherIntent)
+                Timber.i("users ${app.users}}")
+            }
         }
     }
 

@@ -50,7 +50,7 @@ class RecipeActivity : AppCompatActivity(), IngredientListener, StepListener {
         binding.recyclerView.adapter = IngredientAdapter(recipe.ingredients, this)
         binding.stepsRecyclerView.adapter = StepsAdapter(recipe.steps, this )
 
-        binding.toolbarAdd.title = title
+        binding.toolbarAdd.title = resources.getString(R.string.create_recipe_toolbar)
         setSupportActionBar(binding.toolbarAdd)
         registerImagePickerCallback()
         registerCameraCallback()
@@ -70,6 +70,7 @@ class RecipeActivity : AppCompatActivity(), IngredientListener, StepListener {
 
         if (intent.hasExtra("recipe_edit")) {
             edit = true
+            binding.toolbarAdd.title = resources.getString(R.string.edit_recipe_toolbar)
             recipe = intent.extras?.getParcelable("recipe_edit")!!
             binding.recipeName.setText(recipe.name)
             binding.recipeDescription.setText(recipe.description)

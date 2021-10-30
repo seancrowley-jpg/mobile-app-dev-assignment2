@@ -35,7 +35,7 @@ class ViewRecipeActivity : AppCompatActivity(), IngredientListener, StepListener
         binding.stepsRecyclerRecipeView.layoutManager = stepsLayoutManager
         binding.ingredientRecyclerRecipeView.adapter = IngredientAdapter(recipe.ingredients, this)
         binding.stepsRecyclerRecipeView.adapter = StepsAdapter(recipe.steps, this )
-        binding.toolbarRecipe.title = title
+        binding.toolbarRecipe.title = resources.getString(R.string.view_recipe_toolbar)
         setSupportActionBar(binding.toolbarRecipe)
     }
 

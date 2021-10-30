@@ -41,12 +41,15 @@
     <string name="desc_header">Description</string>
     <string name="meal_header">Meal</string>
     <string name="stepsCard_header">Step: </string>
+    <string name="edit_recipe_toolbar">Edit Recipe</string>
+    <string name="create_recipe_toolbar">Create Recipe</string>
+    <string name="view_recipe_toolbar">Recipe</string>
     <string-array name="meals">
         <item>Breakfast</item>
         <item>Lunch</item>
         <item>Dinner</item>
     </string-array>
-    <string name="title_activity_map">MapActivity</string>
+    <string name="title_activity_map">Map</string>
     <string name="style_json">[
   {
     "featureType": "poi",
