@@ -5,55 +5,85 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
+import org.wit.recipes.databinding.FragmentRecipeBinding
+import org.wit.recipes.main.MainApp
+import org.wit.recipes.models.RecipeModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [RecipeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class RecipeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    lateinit var app: MainApp
+    private var _fragBinding: FragmentRecipeBinding? = null
+    private val fragBinding get() = _fragBinding!!
+    var recipe = RecipeModel()
+    var edit = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        app = activity?.application as MainApp
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recipe, container, false)
+
+        _fragBinding = FragmentRecipeBinding.inflate(inflater, container, false)
+        val root = fragBinding.root
+        activity?.title = getString(R.string.create_recipe_toolbar)
+
+        var meals = resources.getStringArray(R.array.meals)
+        fragBinding.mealPicker.minValue = 0
+        fragBinding.mealPicker.maxValue= 3
+        fragBinding.mealPicker.value = 0
+        fragBinding.mealPicker.displayedValues = meals
+
+        fragBinding.mealPicker.setOnValueChangedListener{ _, _, newVal ->
+            fragBinding.mealText.setText(meals[newVal])
+        }
+
+        setButtonListener(fragBinding)
+        return root;
+    }
+
+    fun setButtonListener(layout: FragmentRecipeBinding) {
+        layout.btnAdd.setOnClickListener() {
+            recipe.name = layout.recipeName.text.toString()
+            recipe.description = layout.recipeDescription.text.toString()
+            recipe.meal = layout.mealText.text.toString()
+            if (recipe.name.isEmpty()) {
+                layout.recipeName.requestFocus();
+                layout.recipeName.setError("Please enter a Name for the recipe");
+            }
+            else if (recipe.meal.contentEquals("What type of meal is it?")){
+                Snackbar.make(it,"Please pick a meal type", Snackbar.LENGTH_LONG).show()
+            }
+            else {
+                if (edit) {
+                    app.recipes.create(recipe.copy())
+                } else {
+                    app.recipes.create(recipe.copy())
+                }
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _fragBinding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment RecipeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance() =
             RecipeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+                arguments = Bundle().apply {}
             }
     }
 }
