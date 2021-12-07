@@ -1,38 +1,62 @@
 package org.wit.recipes.fragments
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.view.*
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 import org.wit.recipes.R
+import org.wit.recipes.adapters.*
 import org.wit.recipes.databinding.FragmentRecipeBinding
+import org.wit.recipes.helpers.showImagePicker
 import org.wit.recipes.main.MainApp
 import org.wit.recipes.models.RecipeModel
+import timber.log.Timber
+import java.io.File
 
 
-class RecipeFragment : Fragment() {
+class RecipeFragment : Fragment(), IngredientListener, StepListener {
     lateinit var app: MainApp
     private var _fragBinding: FragmentRecipeBinding? = null
     private val fragBinding get() = _fragBinding!!
     var recipe = RecipeModel()
     var edit = false
+    private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
+    private lateinit var cameraIntentLauncher : ActivityResultLauncher<Intent>
+    private lateinit var photoFile: File
+    private var FILE_NAME = "photo"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         app = activity?.application as MainApp
         setHasOptionsMenu(true)
+        registerImagePickerCallback()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //setHasOptionsMenu(true)
         _fragBinding = FragmentRecipeBinding.inflate(inflater, container, false)
         val root = fragBinding.root
         activity?.title = getString(R.string.create_recipe_toolbar)
+
+        fragBinding.recyclerView.setLayoutManager(LinearLayoutManager(activity))
+        fragBinding.recyclerView.adapter = IngredientAdapter(recipe.ingredients, this)
+        fragBinding.stepsRecyclerView.setLayoutManager(LinearLayoutManager(activity))
+        fragBinding.stepsRecyclerView.adapter = StepsAdapter(recipe.steps, this)
 
         var meals = resources.getStringArray(R.array.meals)
         fragBinding.mealPicker.minValue = 0
@@ -68,6 +92,33 @@ class RecipeFragment : Fragment() {
                 }
             }
         }
+        layout.btnAddIngredient.setOnClickListener() {
+            recipe.ingredients.add(fragBinding.ingredientText.text.toString())
+            Timber.i("ingredients ${recipe.ingredients}")
+            fragBinding.recyclerView.adapter = IngredientAdapter(recipe.ingredients,this)
+            fragBinding.recyclerView.adapter?.notifyDataSetChanged()
+        }
+        layout.btnAddStep.setOnClickListener() {
+            recipe.steps.add(fragBinding.stepsText.text.toString())
+            Timber.i("Steps ${recipe.steps}")
+            fragBinding.stepsRecyclerView.adapter = StepsAdapter(recipe.steps, this)
+            fragBinding.stepsRecyclerView.adapter?.notifyDataSetChanged()
+        }
+        layout.chooseImage.setOnClickListener {
+            showImagePicker(imageIntentLauncher)
+        }
+        /*
+        layout.btnTakePic.setOnClickListener {
+            val takePicIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            photoFile = getPhotoFile(FILE_NAME)
+            val fileProvider = FileProvider.getUriForFile(this, "org.wit.recipes.fileprovider", photoFile)
+            takePicIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider)
+            if(takePicIntent.resolveActivity(this.packageManager) != null)
+                cameraIntentLauncher.launch(takePicIntent)
+            else
+                Toast.makeText(this, "Cant open camera", Toast.LENGTH_SHORT)
+
+        }*/
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -95,6 +146,34 @@ class RecipeFragment : Fragment() {
         fun newInstance() =
             RecipeFragment().apply {
                 arguments = Bundle().apply {}
+            }
+    }
+
+    override fun onIngredientBtnClick(ingredient: String?) {
+        recipe.ingredients.remove(ingredient)
+        fragBinding.recyclerView.adapter?.notifyDataSetChanged()
+    }
+
+    override fun onStepBtnClick(step: String?) {
+        recipe.steps.remove(step)
+        fragBinding.stepsRecyclerView.adapter?.notifyDataSetChanged()
+    }
+
+    private fun registerImagePickerCallback() {
+        imageIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when(result.resultCode){
+                    AppCompatActivity.RESULT_OK -> {
+                        if (result.data != null) {
+                            Timber.i("Got Result ${result.data!!.data}")
+                            recipe.image = result.data!!.data!!
+                            Picasso.get().load(recipe.image).into(fragBinding.recipeImage)
+                            fragBinding.chooseImage.setText(R.string.change_recipe_image)
+                        }
+                    }
+                    AppCompatActivity.RESULT_CANCELED -> { } else -> { }
+                }
             }
     }
 }
