@@ -1,4 +1,4 @@
-package org.wit.recipes
+package org.wit.recipes.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

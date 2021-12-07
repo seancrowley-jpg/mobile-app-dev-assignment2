@@ -1,12 +1,12 @@
-package org.wit.recipes
+package org.wit.recipes.fragments
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.google.android.material.snackbar.Snackbar
+import org.wit.recipes.R
 import org.wit.recipes.databinding.FragmentRecipeBinding
 import org.wit.recipes.main.MainApp
 import org.wit.recipes.models.RecipeModel
@@ -20,15 +20,16 @@ class RecipeFragment : Fragment() {
     var edit = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        app = activity?.application as MainApp
         super.onCreate(savedInstanceState)
+        app = activity?.application as MainApp
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        //setHasOptionsMenu(true)
         _fragBinding = FragmentRecipeBinding.inflate(inflater, container, false)
         val root = fragBinding.root
         activity?.title = getString(R.string.create_recipe_toolbar)
@@ -67,6 +68,16 @@ class RecipeFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_recipe, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return NavigationUI.onNavDestinationSelected(item,
+            requireView().findNavController()) || super.onOptionsItemSelected(item)
     }
 
     override fun onDestroyView() {

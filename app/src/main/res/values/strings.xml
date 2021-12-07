@@ -51,6 +51,13 @@
         <item>Desert</item>
     </string-array>
     <string name="title_activity_map">Map</string>
+    <string name="action_cancel_recipe">Cancel</string>
+    <string name="action_add_recipe">Add a Recipe</string>
+    <string name="action_view_recipes">View Recipes</string>
+    <string name="group_recipes">Recipes</string>
+    <string name="nav_header_title">Recipes Book</string>
+    <string name="nav_header_subtitle">Create your own recipes</string>
+    <string name="nav_header_desc">Navigation header</string>
     <string name="style_json">[
   {
     "featureType": "poi",
