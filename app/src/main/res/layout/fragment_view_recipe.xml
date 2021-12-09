@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.ViewRecipeFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="42dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/recipeNameHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="10dp"
+                    android:textSize="20sp"
+                    android:text="@string/name_header" />
+
+                <TextView
+                    android:id="@+id/recipeViewName"
+                    android:layout_width="409dp"
+                    android:layout_height="78dp"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="1dp"
+                    android:autoSizeTextType="uniform"
+                    tools:text="Scrambled Eggs On Toast"
+                    android:textSize="35sp" />
+
+                <TextView
+                    android:id="@+id/recipeMealView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="10dp"
+                    android:textSize="20sp"
+                    android:text="@string/meal_header" />
+
+                <ImageView
+                    android:id="@+id/recipeViewImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="315dp"
+                    android:layout_marginTop="20dp"
+                    android:contentDescription="@string/recipeImage_content_desc"
+                    app:srcCompat="@drawable/recipebook" />
+
+                <TextView
+                    android:id="@+id/recipeDescriptionHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="4dp"
+                    android:textSize="20sp"
+                    android:text="@string/desc_header" />
+
+                <TextView
+                    android:id="@+id/recipeViewDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginTop="4dp"
+                    android:autoSizeTextType="uniform"
+                    tools:text="Scrambled Eggs On Toast"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="20sp"
+                    android:text="@string/ingredients_header" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/ingredientRecyclerRecipeView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="vertical"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+                <TextView
+                    android:layout_width="409dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="20dp"
+                    android:textSize="20sp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/steps_header" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/stepsRecyclerRecipeView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="vertical"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
