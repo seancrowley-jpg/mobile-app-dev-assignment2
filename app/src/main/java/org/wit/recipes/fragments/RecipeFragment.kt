@@ -43,6 +43,7 @@ class RecipeFragment : Fragment(), IngredientListener, StepListener {
         app = activity?.application as MainApp
         setHasOptionsMenu(true)
         registerImagePickerCallback()
+        registerCameraCallback()
     }
 
     override fun onCreateView(
@@ -107,18 +108,19 @@ class RecipeFragment : Fragment(), IngredientListener, StepListener {
         layout.chooseImage.setOnClickListener {
             showImagePicker(imageIntentLauncher)
         }
-        /*
+
         layout.btnTakePic.setOnClickListener {
             val takePicIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            val context = requireContext()
             photoFile = getPhotoFile(FILE_NAME)
-            val fileProvider = FileProvider.getUriForFile(this, "org.wit.recipes.fileprovider", photoFile)
+            val fileProvider = FileProvider.getUriForFile(context, "org.wit.recipes.fileprovider", photoFile)
             takePicIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider)
-            if(takePicIntent.resolveActivity(this.packageManager) != null)
+            if(takePicIntent.resolveActivity(context.packageManager) != null)
                 cameraIntentLauncher.launch(takePicIntent)
             else
-                Toast.makeText(this, "Cant open camera", Toast.LENGTH_SHORT)
+                Toast.makeText(context, "Cant open camera", Toast.LENGTH_SHORT)
 
-        }*/
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -159,6 +161,11 @@ class RecipeFragment : Fragment(), IngredientListener, StepListener {
         fragBinding.stepsRecyclerView.adapter?.notifyDataSetChanged()
     }
 
+    private fun getPhotoFile(fileName: String): File {
+        val storageDirectory = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(fileName, ".jpg", storageDirectory)
+    }
+
     private fun registerImagePickerCallback() {
         imageIntentLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult())
@@ -171,6 +178,23 @@ class RecipeFragment : Fragment(), IngredientListener, StepListener {
                             Picasso.get().load(recipe.image).into(fragBinding.recipeImage)
                             fragBinding.chooseImage.setText(R.string.change_recipe_image)
                         }
+                    }
+                    AppCompatActivity.RESULT_CANCELED -> { } else -> { }
+                }
+            }
+    }
+
+    private fun registerCameraCallback() {
+        cameraIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when(result.resultCode){
+                    AppCompatActivity.RESULT_OK -> {
+                        Timber.i("Got Result ${result.data!!.data}")
+                        recipe.image = photoFile.toUri()
+                        Timber.i("Image ${recipe.image}")
+                        Picasso.get().load(recipe.image).into(fragBinding.recipeImage)
+                        fragBinding.chooseImage.setText(R.string.change_recipe_image)
                     }
                     AppCompatActivity.RESULT_CANCELED -> { } else -> { }
                 }
