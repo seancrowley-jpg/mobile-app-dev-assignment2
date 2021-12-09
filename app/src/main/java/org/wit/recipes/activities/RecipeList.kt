@@ -66,7 +66,7 @@ class RecipeListActivity : AppCompatActivity(), RecipeListener {
      return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    /*override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_add -> {
                 val launcherIntent = Intent(this, RecipeActivity::class.java)
@@ -91,7 +91,7 @@ class RecipeListActivity : AppCompatActivity(), RecipeListener {
             }
         }
         return super.onOptionsItemSelected(item)
-    }
+    }*/
 
     override fun onRecipeClick(recipe: RecipeModel) {
         val launcherIntent = Intent(this, ViewRecipeActivity::class.java)

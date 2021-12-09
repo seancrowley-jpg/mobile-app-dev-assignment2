@@ -41,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
             }
             else if (app.users.checkPassword(user)) {
                 app.currentUser = app.users.login(user)
-                val launcherIntent = Intent(this, RecipeListActivity::class.java)
+                val launcherIntent = Intent(this, Home::class.java)
                 startActivity(launcherIntent)
             }
             else
