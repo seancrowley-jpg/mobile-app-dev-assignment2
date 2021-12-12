@@ -1,4 +1,4 @@
-package org.wit.recipes.fragments
+package org.wit.recipes.ui.recipe
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,6 +39,7 @@ class RecipeFragment : Fragment(), IngredientListener, StepListener {
     private lateinit var cameraIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var photoFile: File
     private var FILE_NAME = "photo"
+    private lateinit var recipeViewModel: RecipeViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +56,11 @@ class RecipeFragment : Fragment(), IngredientListener, StepListener {
         _fragBinding = FragmentRecipeBinding.inflate(inflater, container, false)
         val root = fragBinding.root
         activity?.title = getString(R.string.create_recipe_toolbar)
+
+        recipeViewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
+        recipeViewModel.text.observe(viewLifecycleOwner, Observer {
+
+        })
 
         fragBinding.recyclerView.setLayoutManager(LinearLayoutManager(activity))
         fragBinding.recyclerView.adapter = IngredientAdapter(recipe.ingredients, this)

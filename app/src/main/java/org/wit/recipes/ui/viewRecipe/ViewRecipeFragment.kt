@@ -1,10 +1,10 @@
-package org.wit.recipes.fragments
+package org.wit.recipes.ui.viewRecipe
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,17 +14,18 @@ import org.wit.recipes.adapters.IngredientAdapter
 import org.wit.recipes.adapters.IngredientListener
 import org.wit.recipes.adapters.StepListener
 import org.wit.recipes.adapters.StepsAdapter
-import org.wit.recipes.databinding.FragmentRecipeBinding
 import org.wit.recipes.databinding.FragmentViewRecipeBinding
+import org.wit.recipes.ui.recipe.RecipeFragment
 import org.wit.recipes.main.MainApp
 import org.wit.recipes.models.RecipeModel
-import java.io.File
+import org.wit.recipes.ui.recipeList.RecipeListViewModel
 
 class ViewRecipeFragment : Fragment(), IngredientListener, StepListener {
     lateinit var app: MainApp
     private var _fragBinding: FragmentViewRecipeBinding? = null
     private val fragBinding get() = _fragBinding!!
     var recipe = RecipeModel()
+    private lateinit var viewRecipeViewModel: ViewRecipeViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -40,6 +41,12 @@ class ViewRecipeFragment : Fragment(), IngredientListener, StepListener {
         _fragBinding = FragmentViewRecipeBinding.inflate(inflater, container, false)
         val root = fragBinding.root
         activity?.title = getString(R.string.view_recipe_toolbar)
+
+        viewRecipeViewModel = ViewModelProvider(this).get(ViewRecipeViewModel::class.java)
+        viewRecipeViewModel.text.observe(viewLifecycleOwner, Observer {
+
+        })
+
         fragBinding.recipeViewName.setText(recipe.name)
         fragBinding.recipeViewDescription.setText(recipe.description)
         fragBinding.recipeMealView.setText(recipe.meal)

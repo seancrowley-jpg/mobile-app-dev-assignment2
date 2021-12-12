@@ -1,10 +1,12 @@
-package org.wit.recipes.fragments
+package org.wit.recipes.ui.recipeList
 
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,12 +16,14 @@ import org.wit.recipes.adapters.RecipeListener
 import org.wit.recipes.databinding.FragmentRecipeListBinding
 import org.wit.recipes.main.MainApp
 import org.wit.recipes.models.RecipeModel
+import org.wit.recipes.ui.recipe.RecipeViewModel
 
 class RecipeListFragment : Fragment(), RecipeListener {
     lateinit var app: MainApp
     private var _fragBinding: FragmentRecipeListBinding? = null
     private val fragBinding get() = _fragBinding!!
     private lateinit var adapter: RecipeAdapter
+    private lateinit var recipeListViewModel: RecipeListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         app = activity?.application as MainApp
@@ -34,6 +38,11 @@ class RecipeListFragment : Fragment(), RecipeListener {
         _fragBinding = FragmentRecipeListBinding.inflate(inflater, container, false)
         val root = fragBinding.root
         activity?.title = "Welcome ${app.currentUser?.name}"
+
+        recipeListViewModel = ViewModelProvider(this).get(RecipeListViewModel::class.java)
+        recipeListViewModel.text.observe(viewLifecycleOwner, Observer {
+
+        })
 
         fragBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
         adapter = RecipeAdapter(app.recipes.findAll(),this)
