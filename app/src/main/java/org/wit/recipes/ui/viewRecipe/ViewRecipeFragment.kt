@@ -2,10 +2,12 @@ package org.wit.recipes.ui.viewRecipe
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.squareup.picasso.Picasso
@@ -19,19 +21,18 @@ import org.wit.recipes.ui.recipe.RecipeFragment
 import org.wit.recipes.main.MainApp
 import org.wit.recipes.models.RecipeModel
 import org.wit.recipes.ui.recipeList.RecipeListViewModel
+import timber.log.Timber
 
 class ViewRecipeFragment : Fragment(), IngredientListener, StepListener {
-    lateinit var app: MainApp
     private var _fragBinding: FragmentViewRecipeBinding? = null
     private val fragBinding get() = _fragBinding!!
     var recipe = RecipeModel()
     private lateinit var viewRecipeViewModel: ViewRecipeViewModel
+    private val args by navArgs<ViewRecipeFragmentArgs>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
-        app = activity?.application as MainApp
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -40,22 +41,19 @@ class ViewRecipeFragment : Fragment(), IngredientListener, StepListener {
     ): View? {
         _fragBinding = FragmentViewRecipeBinding.inflate(inflater, container, false)
         val root = fragBinding.root
-        activity?.title = getString(R.string.view_recipe_toolbar)
+        fragBinding.ingredientRecyclerRecipeView.layoutManager = LinearLayoutManager(activity)
+        fragBinding.stepsRecyclerRecipeView.layoutManager = LinearLayoutManager(activity)
 
         viewRecipeViewModel = ViewModelProvider(this).get(ViewRecipeViewModel::class.java)
-        viewRecipeViewModel.text.observe(viewLifecycleOwner, Observer {
-
+        viewRecipeViewModel.observableRecipe.observe(viewLifecycleOwner, Observer {
+                recipe -> recipe?.let { render(recipe)}
         })
 
-        fragBinding.recipeViewName.setText(recipe.name)
+        /*fragBinding.recipeViewName.setText(recipe.name)
         fragBinding.recipeViewDescription.setText(recipe.description)
         fragBinding.recipeMealView.setText(recipe.meal)
-        Picasso.get().load(recipe.image).into(fragBinding.recipeViewImage)
-        fragBinding.ingredientRecyclerRecipeView.layoutManager = LinearLayoutManager(activity)
-        fragBinding.ingredientRecyclerRecipeView.adapter = IngredientAdapter(recipe.ingredients, this)
-        fragBinding.stepsRecyclerRecipeView.layoutManager = LinearLayoutManager(activity)
-        fragBinding.stepsRecyclerRecipeView.adapter = StepsAdapter(recipe.steps, this)
-        return inflater.inflate(R.layout.fragment_view_recipe, container, false)
+        Picasso.get().load(recipe.image).into(fragBinding.recipeViewImage)*/
+        return root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -68,12 +66,17 @@ class ViewRecipeFragment : Fragment(), IngredientListener, StepListener {
             requireView().findNavController()) || super.onOptionsItemSelected(item)
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            RecipeFragment().apply {
-                arguments = Bundle().apply {}
-            }
+    private fun render(recipe: RecipeModel) {
+        fragBinding.recipevm = viewRecipeViewModel
+        Picasso.get().load(recipe.image).into(fragBinding.recipeViewImage)
+        fragBinding.ingredientRecyclerRecipeView.adapter = IngredientAdapter(recipe.ingredients, this)
+        fragBinding.stepsRecyclerRecipeView.adapter = StepsAdapter(recipe.steps, this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewRecipeViewModel.getRecipe(args.recipeid)
+
     }
 
     override fun onIngredientBtnClick(ingredient: String?) {

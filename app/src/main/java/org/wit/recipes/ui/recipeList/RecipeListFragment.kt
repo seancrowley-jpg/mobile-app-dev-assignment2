@@ -8,8 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.wit.recipes.R
 import org.wit.recipes.adapters.RecipeAdapter
 import org.wit.recipes.adapters.RecipeListener
@@ -22,11 +24,11 @@ class RecipeListFragment : Fragment(), RecipeListener {
     lateinit var app: MainApp
     private var _fragBinding: FragmentRecipeListBinding? = null
     private val fragBinding get() = _fragBinding!!
-    private lateinit var adapter: RecipeAdapter
+    //private lateinit var adapter: RecipeAdapter
     private lateinit var recipeListViewModel: RecipeListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        app = activity?.application as MainApp
+
         setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
     }
@@ -37,16 +39,19 @@ class RecipeListFragment : Fragment(), RecipeListener {
     ): View? {
         _fragBinding = FragmentRecipeListBinding.inflate(inflater, container, false)
         val root = fragBinding.root
-        activity?.title = "Welcome ${app.currentUser?.name}"
-
+        fragBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
         recipeListViewModel = ViewModelProvider(this).get(RecipeListViewModel::class.java)
-        recipeListViewModel.text.observe(viewLifecycleOwner, Observer {
-
+        recipeListViewModel.observableRecipesList.observe(viewLifecycleOwner, Observer {
+            recipes -> recipes?.let { render(recipes)}
         })
 
-        fragBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
-        adapter = RecipeAdapter(app.recipes.findAll(),this)
-        fragBinding.recyclerView.adapter = adapter
+        //adapter = RecipeAdapter(app.recipes.findAll(),this)
+        //fragBinding.recyclerView.adapter = adapter
+        val fab: FloatingActionButton = fragBinding.fab
+        fab.setOnClickListener {
+            val action = RecipeListFragmentDirections.actionRecipeListFragmentToRecipeFragment()
+            findNavController().navigate(action)
+        }
 
         return root
     }
@@ -62,7 +67,7 @@ class RecipeListFragment : Fragment(), RecipeListener {
             }
 
             override fun onQueryTextChange(p0: String?): Boolean {
-                adapter.filter.filter(p0)
+                //adapter.filter.filter(p0)
                 //if(p0.isNullOrBlank()) loadRecipes()
                 return true
             }
@@ -73,19 +78,27 @@ class RecipeListFragment : Fragment(), RecipeListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.item_delete_all){
-            app.recipes.deleteAll()
-            fragBinding.recyclerView.adapter?.notifyDataSetChanged()
+            //app.recipes.deleteAll()
+            //fragBinding.recyclerView.adapter?.notifyDataSetChanged()
         }
         return NavigationUI.onNavDestinationSelected(item,
             requireView().findNavController()) || super.onOptionsItemSelected(item)
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            RecipeListFragment().apply {
-                arguments = Bundle().apply { }
-            }
+    private fun render(recipeList: List<RecipeModel>) {
+        fragBinding.recyclerView.adapter = RecipeAdapter(recipeList, this)
+        if (recipeList.isEmpty()) {
+            fragBinding.recyclerView.visibility = View.GONE
+            fragBinding.recipesNotFound.visibility = View.VISIBLE
+        } else {
+            fragBinding.recyclerView.visibility = View.VISIBLE
+            fragBinding.recipesNotFound.visibility = View.GONE
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        recipeListViewModel.load()
     }
 
     override fun onDestroyView() {
@@ -94,12 +107,13 @@ class RecipeListFragment : Fragment(), RecipeListener {
     }
 
     override fun onRecipeClick(recipe: RecipeModel) {
-        TODO("Not yet implemented")
+        val action = RecipeListFragmentDirections.actionRecipeListFragmentToViewRecipeFragment(recipe.id)
+        findNavController().navigate(action)
     }
 
     override fun onDeleteClick(recipe: RecipeModel) {
-        app.recipes.delete(recipe)
-        fragBinding.recyclerView.adapter?.notifyDataSetChanged()
+        //app.recipes.delete(recipe)
+        //fragBinding.recyclerView.adapter?.notifyDataSetChanged()
     }
 
     override fun onEditClick(recipe: RecipeModel) {

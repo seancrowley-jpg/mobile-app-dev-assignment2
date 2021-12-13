@@ -58,6 +58,8 @@
     <string name="nav_header_title">Recipes Book</string>
     <string name="nav_header_subtitle">Create your own recipes</string>
     <string name="nav_header_desc">Navigation header</string>
+    <string name="recipesNotFound">No recipes\nCreate a recipe</string>
+    <string name="recipeError">Error : Couldn\'t Create Recipe...</string>
     <string name="style_json">[
   {
     "featureType": "poi",

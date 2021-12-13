@@ -8,11 +8,16 @@ internal fun getId(): Long {
     return lastId++
 }
 
-class RecipeMemStore: RecipeStore {
+object RecipeManager: RecipeStore {
     val recipes = ArrayList<RecipeModel>()
 
     override fun findAll(): MutableList<RecipeModel> {
         return recipes
+    }
+
+    override fun findById(id: Long): RecipeModel? {
+        val foundRecipe: RecipeModel? = recipes.find { it.id == id }
+        return foundRecipe
     }
 
     override fun create(recipe: RecipeModel) {

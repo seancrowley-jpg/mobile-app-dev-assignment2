@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -30,7 +31,7 @@ import java.io.File
 
 
 class RecipeFragment : Fragment(), IngredientListener, StepListener {
-    lateinit var app: MainApp
+
     private var _fragBinding: FragmentRecipeBinding? = null
     private val fragBinding get() = _fragBinding!!
     var recipe = RecipeModel()
@@ -43,7 +44,6 @@ class RecipeFragment : Fragment(), IngredientListener, StepListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        app = activity?.application as MainApp
         setHasOptionsMenu(true)
         registerImagePickerCallback()
         registerCameraCallback()
@@ -55,17 +55,14 @@ class RecipeFragment : Fragment(), IngredientListener, StepListener {
     ): View? {
         _fragBinding = FragmentRecipeBinding.inflate(inflater, container, false)
         val root = fragBinding.root
-        activity?.title = getString(R.string.create_recipe_toolbar)
 
         recipeViewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
-        recipeViewModel.text.observe(viewLifecycleOwner, Observer {
-
+        recipeViewModel.observableStatus.observe(viewLifecycleOwner, Observer {
+                status -> status?.let { render(status) }
         })
 
         fragBinding.recyclerView.setLayoutManager(LinearLayoutManager(activity))
-        fragBinding.recyclerView.adapter = IngredientAdapter(recipe.ingredients, this)
         fragBinding.stepsRecyclerView.setLayoutManager(LinearLayoutManager(activity))
-        fragBinding.stepsRecyclerView.adapter = StepsAdapter(recipe.steps, this)
 
         var meals = resources.getStringArray(R.array.meals)
         fragBinding.mealPicker.minValue = 0
@@ -81,6 +78,19 @@ class RecipeFragment : Fragment(), IngredientListener, StepListener {
         return root;
     }
 
+    private fun render(status: Boolean) {
+        fragBinding.recyclerView.adapter = IngredientAdapter(recipe.ingredients, this)
+        fragBinding.stepsRecyclerView.adapter = StepsAdapter(recipe.steps, this)
+        when (status) {
+            true -> {
+                view?.let {
+                    findNavController().popBackStack()
+                }
+            }
+            false -> Toast.makeText(context,getString(R.string.recipeError),Toast.LENGTH_LONG).show()
+        }
+    }
+
     fun setButtonListener(layout: FragmentRecipeBinding) {
         layout.btnAdd.setOnClickListener() {
             recipe.name = layout.recipeName.text.toString()
@@ -94,11 +104,7 @@ class RecipeFragment : Fragment(), IngredientListener, StepListener {
                 Snackbar.make(it,"Please pick a meal type", Snackbar.LENGTH_LONG).show()
             }
             else {
-                if (edit) {
-                    app.recipes.create(recipe.copy())
-                } else {
-                    app.recipes.create(recipe.copy())
-                }
+                recipeViewModel.addRecipe(recipe)
             }
         }
         layout.btnAddIngredient.setOnClickListener() {

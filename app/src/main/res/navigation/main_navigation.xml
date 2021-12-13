@@ -26,6 +26,9 @@
             app:destination="@id/recipeFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_recipeListFragment_to_viewRecipeFragment"
+            app:destination="@id/viewRecipeFragment" />
     </fragment>
     <fragment
         android:id="@+id/mapFragment"
@@ -34,7 +37,11 @@
         tools:layout="@layout/fragment_map" />
     <fragment
         android:id="@+id/viewRecipeFragment"
-        android:name="org.wit.recipes.ViewRecipeFragment"
+        android:name="org.wit.recipes.ui.viewRecipe.ViewRecipeFragment"
         android:label="fragment_view_recipe"
-        tools:layout="@layout/fragment_view_recipe" />
+        tools:layout="@layout/fragment_view_recipe" >
+        <argument
+            android:name="recipeid"
+            app:argType="long" />
+    </fragment>
 </navigation>
