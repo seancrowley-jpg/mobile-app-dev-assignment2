@@ -19,4 +19,8 @@ class RecipeListViewModel : ViewModel(){
     fun load() {
         recipeList.value = RecipeManager.findAll()
     }
+
+    fun deleteRecipe(recipeModel: RecipeModel) {
+        RecipeManager.delete(recipeModel)
+    }
 }

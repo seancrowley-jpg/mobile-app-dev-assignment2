@@ -112,8 +112,8 @@ class RecipeListFragment : Fragment(), RecipeListener {
     }
 
     override fun onDeleteClick(recipe: RecipeModel) {
-        //app.recipes.delete(recipe)
-        //fragBinding.recyclerView.adapter?.notifyDataSetChanged()
+        recipeListViewModel.deleteRecipe(recipe)
+        fragBinding.recyclerView.adapter?.notifyDataSetChanged()
     }
 
     override fun onEditClick(recipe: RecipeModel) {
