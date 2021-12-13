@@ -15,6 +15,10 @@
             app:destination="@id/recipeListFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
+        <argument
+            android:name="recipeid"
+            app:argType="long"
+            android:defaultValue="0L" />
     </fragment>
     <fragment
         android:id="@+id/recipeListFragment"
@@ -29,6 +33,9 @@
         <action
             android:id="@+id/action_recipeListFragment_to_viewRecipeFragment"
             app:destination="@id/viewRecipeFragment" />
+        <action
+            android:id="@+id/action_recipeListFragment_to_editRecipeFragment"
+            app:destination="@id/editRecipeFragment" />
     </fragment>
     <fragment
         android:id="@+id/mapFragment"
@@ -40,6 +47,14 @@
         android:name="org.wit.recipes.ui.viewRecipe.ViewRecipeFragment"
         android:label="fragment_view_recipe"
         tools:layout="@layout/fragment_view_recipe" >
+        <argument
+            android:name="recipeid"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/editRecipeFragment"
+        android:name="org.wit.recipes.ui.editRecipe.EditRecipeFragment"
+        android:label="EditRecipeFragment" >
         <argument
             android:name="recipeid"
             app:argType="long" />

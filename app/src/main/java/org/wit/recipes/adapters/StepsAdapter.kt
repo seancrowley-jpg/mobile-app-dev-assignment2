@@ -34,6 +34,7 @@ class StepsAdapter constructor(private var steps: MutableList<String?>, private 
             var stepNum = adapterPosition + 1
             binding.stepNum.setText("$stepNum.")
             binding.btnDeleteStep.setOnClickListener{listener.onStepBtnClick(step)}
+            binding.executePendingBindings()
         }
     }
 }

@@ -117,6 +117,7 @@ class RecipeListFragment : Fragment(), RecipeListener {
     }
 
     override fun onEditClick(recipe: RecipeModel) {
-        TODO("Not yet implemented")
+        val action = RecipeListFragmentDirections.actionRecipeListFragmentToEditRecipeFragment(recipe.id)
+        findNavController().navigate(action)
     }
 }
