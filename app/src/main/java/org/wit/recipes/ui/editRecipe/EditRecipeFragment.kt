@@ -36,7 +36,6 @@ class EditRecipeFragment : Fragment(), IngredientListener, StepListener {
 
     private var _fragBinding: FragmentEditRecipeBinding? = null
     private val fragBinding get() = _fragBinding!!
-    var recipe = RecipeModel()
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var cameraIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var photoFile: File
@@ -105,36 +104,32 @@ class EditRecipeFragment : Fragment(), IngredientListener, StepListener {
 
     fun setButtonListener(layout: FragmentEditRecipeBinding) {
         layout.btnAdd.setOnClickListener() {
-            recipe.id = args.recipeid
-            recipe.name = layout.recipeName.text.toString()
-            recipe.description = layout.recipeDescription.text.toString()
-            recipe.meal = layout.mealText.text.toString()
-            recipe.image = fragBinding.recipevm?.observableRecipe!!.value!!.image
-            Timber.i("Steps ${recipe.steps}")
-            if (recipe.name.isEmpty()) {
+            fragBinding.recipevm?.observableRecipe!!.value!!.id = args.recipeid
+            fragBinding.recipevm?.observableRecipe!!.value!!.name = layout.recipeName.text.toString()
+            fragBinding.recipevm?.observableRecipe!!.value!!.description = layout.recipeDescription.text.toString()
+            fragBinding.recipevm?.observableRecipe!!.value!!.meal = layout.mealText.text.toString()
+            Timber.i("Steps ${fragBinding.recipevm?.observableRecipe!!.value!!.steps}")
+            if (layout.recipeName.text.isEmpty()) {
                 layout.recipeName.requestFocus();
                 layout.recipeName.setError("Please enter a Name for the recipe");
             }
-            else if (recipe.meal.contentEquals("What type of meal is it?")){
+            else if (layout.mealText.text.contentEquals("What type of meal is it?")){
                 Snackbar.make(it,"Please pick a meal type", Snackbar.LENGTH_LONG).show()
             }
             else {
-                Timber.i("Recipe: $recipe")
-                editRecipeViewModel.updateRecipe(recipe)
+                Timber.i("Recipe: ${fragBinding.recipevm?.observableRecipe!!.value!!}")
+                editRecipeViewModel.updateRecipe(fragBinding.recipevm?.observableRecipe!!.value!!)
             }
         }
         layout.btnAddIngredient.setOnClickListener() {
-            recipe.ingredients.add(fragBinding.ingredientText.text.toString())
-            recipe.ingredients = fragBinding.recipevm?.observableRecipe!!.value!!.ingredients
+            fragBinding.recipevm?.observableRecipe!!.value!!.ingredients.add(fragBinding.ingredientText.text.toString())
             Timber.i("ingredients ${fragBinding.recipevm?.observableRecipe!!.value!!.ingredients}")
             fragBinding.recyclerView.adapter = IngredientAdapter(fragBinding.recipevm?.observableRecipe!!.value!!.ingredients,this)
             fragBinding.recyclerView.adapter?.notifyDataSetChanged()
         }
         layout.btnAddStep.setOnClickListener() {
             fragBinding.recipevm?.observableRecipe!!.value!!.steps.add(fragBinding.stepsText.text.toString())
-            recipe.steps = fragBinding.recipevm?.observableRecipe!!.value!!.steps
             Timber.i("Steps View ${fragBinding.recipevm?.observableRecipe!!.value!!.steps}")
-            Timber.i("Steps ${recipe.steps}")
             fragBinding.stepsRecyclerView.adapter = StepsAdapter(fragBinding.recipevm?.observableRecipe!!.value!!.steps, this)
             fragBinding.stepsRecyclerView.adapter?.notifyDataSetChanged()
         }
@@ -177,12 +172,12 @@ class EditRecipeFragment : Fragment(), IngredientListener, StepListener {
     }
 
     override fun onIngredientBtnClick(ingredient: String?) {
-        recipe.ingredients.remove(ingredient)
+        fragBinding.recipevm?.observableRecipe!!.value!!.ingredients.remove(ingredient)
         fragBinding.recyclerView.adapter?.notifyDataSetChanged()
     }
 
     override fun onStepBtnClick(step: String?) {
-        recipe.steps.remove(step)
+        fragBinding.recipevm?.observableRecipe!!.value!!.steps.remove(step)
         fragBinding.stepsRecyclerView.adapter?.notifyDataSetChanged()
     }
 
@@ -217,7 +212,6 @@ class EditRecipeFragment : Fragment(), IngredientListener, StepListener {
                     AppCompatActivity.RESULT_OK -> {
                         Timber.i("Got Result ${result.data!!.data}")
                         fragBinding.recipevm?.observableRecipe!!.value!!.image = photoFile.toUri()
-                        Timber.i("Image ${recipe.image}")
                         Picasso.get().load(fragBinding.recipevm?.observableRecipe!!.value!!.image).into(fragBinding.recipeImage)
                         fragBinding.chooseImage.setText(R.string.change_recipe_image)
                     }
