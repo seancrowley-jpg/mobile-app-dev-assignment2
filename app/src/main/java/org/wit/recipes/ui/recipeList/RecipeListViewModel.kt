@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.wit.recipes.models.RecipeManager
 import org.wit.recipes.models.RecipeModel
+import org.wit.recipes.models.UserMemStore
 
 class RecipeListViewModel : ViewModel(){
     private val recipeList = MutableLiveData<List<RecipeModel>>()
@@ -22,5 +23,9 @@ class RecipeListViewModel : ViewModel(){
 
     fun deleteRecipe(recipeModel: RecipeModel) {
         RecipeManager.delete(recipeModel)
+    }
+
+    fun deleteAllRecipes(){
+        RecipeManager.deleteAll()
     }
 }

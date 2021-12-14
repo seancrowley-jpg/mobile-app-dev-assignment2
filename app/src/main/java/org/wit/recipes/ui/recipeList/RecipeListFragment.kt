@@ -78,8 +78,8 @@ class RecipeListFragment : Fragment(), RecipeListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.item_delete_all){
-            //app.recipes.deleteAll()
-            //fragBinding.recyclerView.adapter?.notifyDataSetChanged()
+            recipeListViewModel.deleteAllRecipes()
+            fragBinding.recyclerView.adapter?.notifyDataSetChanged()
         }
         return NavigationUI.onNavDestinationSelected(item,
             requireView().findNavController()) || super.onOptionsItemSelected(item)
