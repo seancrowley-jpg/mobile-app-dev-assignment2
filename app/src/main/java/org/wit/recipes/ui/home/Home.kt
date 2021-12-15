@@ -3,6 +3,7 @@ package org.wit.recipes.ui.home
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
@@ -65,5 +66,12 @@ class Home : AppCompatActivity() {
         var headerView = homeBinding.navView.getHeaderView(0)
         navHeaderBinding = NavHeaderBinding.bind(headerView)
         navHeaderBinding.navHeaderEmail.text = currentUser.email
+    }
+
+    fun signOut(item: MenuItem) {
+        loggedInViewModel.logOut()
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
     }
 }
