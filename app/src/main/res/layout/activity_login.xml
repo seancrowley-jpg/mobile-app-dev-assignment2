@@ -14,8 +14,7 @@
         android:background="@color/colorAccent"
         android:fitsSystemWindows="true"
         app:elevation="0dip"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbarLogin"
@@ -40,7 +39,7 @@
 
 
     <EditText
-        android:id="@+id/loginEmail"
+        android:id="@+id/emailField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="208dp"
@@ -54,7 +53,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/loginPassword"
+        android:id="@+id/passwordField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -65,19 +64,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/emailField" />
+
 
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="161dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="162dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginBottom="283dp"
         android:text="@string/btn_login"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnSignup"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginPassword" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnSignup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="259dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="62dp"
+        android:layout_marginBottom="283dp"
+        android:text="@string/btn_signUp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

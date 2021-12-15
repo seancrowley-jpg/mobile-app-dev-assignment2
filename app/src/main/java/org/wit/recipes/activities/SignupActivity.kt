@@ -5,11 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.activity.result.ActivityResultLauncher
 import org.wit.recipes.R
 import org.wit.recipes.databinding.ActivitySignupBinding
 import org.wit.recipes.main.MainApp
 import org.wit.recipes.models.UserModel
+import org.wit.recipes.ui.auth.LoginActivity
 import timber.log.Timber
 
 class SignupActivity : AppCompatActivity() {
