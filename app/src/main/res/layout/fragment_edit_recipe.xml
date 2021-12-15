@@ -184,7 +184,7 @@
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp"
                         android:stateListAnimator="@null"
-                        android:text="@string/button_addRecipe"
+                        android:text="@string/edit_recipe_toolbar"
                         android:textColor="@color/colorPrimary"
                         android:textSize="16sp" />
                 </LinearLayout>

@@ -26,7 +26,6 @@ import timber.log.Timber
 class ViewRecipeFragment : Fragment(), IngredientListener, StepListener {
     private var _fragBinding: FragmentViewRecipeBinding? = null
     private val fragBinding get() = _fragBinding!!
-    var recipe = RecipeModel()
     private lateinit var viewRecipeViewModel: ViewRecipeViewModel
     private val args by navArgs<ViewRecipeFragmentArgs>()
 
@@ -48,11 +47,6 @@ class ViewRecipeFragment : Fragment(), IngredientListener, StepListener {
         viewRecipeViewModel.observableRecipe.observe(viewLifecycleOwner, Observer {
                 recipe -> recipe?.let { render(recipe)}
         })
-
-        /*fragBinding.recipeViewName.setText(recipe.name)
-        fragBinding.recipeViewDescription.setText(recipe.description)
-        fragBinding.recipeMealView.setText(recipe.meal)
-        Picasso.get().load(recipe.image).into(fragBinding.recipeViewImage)*/
         return root
     }
 
