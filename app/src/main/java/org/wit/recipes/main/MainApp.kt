@@ -17,8 +17,8 @@ class MainApp : Application() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
         i("RecipeApp started")
-        //recipes = RecipeMemStore()
-        recipes = RecipeJSONStore(applicationContext)
+        //recipes = RecipeManager()
+        //recipes = RecipeJSONStore(applicationContext)
         //users = UserMemStore()
         users = UserJSONStore(applicationContext)
         currentUser

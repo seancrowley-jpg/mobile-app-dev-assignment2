@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="recipevm"
+            type="org.wit.recipes.ui.editRecipe.EditRecipeViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.editRecipe.EditRecipeFragment">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/recipeName"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_margin="8dp"
+                        android:hint="@string/hint_recipeName"
+                        android:inputType="textMultiLine"
+                        android:padding="8dp"
+                        android:textColor="@color/teal_700"
+                        android:textSize="14sp"
+                        android:text="@{recipevm.observableRecipe.name}"
+                        />
+
+                    <EditText
+                        android:id="@+id/recipeDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_margin="8dp"
+                        android:ems="10"
+                        android:gravity="start|top"
+                        android:hint="@string/hint_recipeDescription"
+                        android:inputType="textMultiLine"
+                        android:padding="8dp"
+                        android:textColor="@color/teal_700"
+                        android:textSize="14sp"
+                        android:text="@{recipevm.observableRecipe.description}"/>
+
+                    <TextView
+                        android:id="@+id/mealText"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_margin="8dp"
+                        android:gravity="center_horizontal"
+                        android:text="@{recipevm.observableRecipe.meal}"
+                        />
+
+                    <NumberPicker
+                        android:id="@+id/mealPicker"
+                        android:layout_width="match_parent"
+                        android:layout_height="107dp" />
+
+                    <EditText
+                        android:id="@+id/ingredientText"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_margin="8dp"
+                        android:ems="10"
+                        android:gravity="start|top"
+                        android:hint="@string/hint_ingredient"
+                        android:inputType="textMultiLine"
+                        android:lines="4"
+                        android:maxLength="90"
+                        android:maxLines="4"
+                        android:padding="8dp"
+                        android:textColor="@color/teal_700"
+                        android:textSize="14sp"
+                        />
+
+                    <Button
+                        android:id="@+id/btnAddIngredient"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:background="@color/colorAccent"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="@string/button_addIngredient"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="16sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scrollbars="vertical"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+                    <EditText
+                        android:id="@+id/stepsText"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_margin="8dp"
+                        android:ems="10"
+                        android:gravity="start|top"
+                        android:hint="@string/hint_steps"
+                        android:inputType="textMultiLine"
+                        android:lines="4"
+                        android:maxLength="180"
+                        android:maxLines="4"
+                        android:padding="8dp"
+                        android:textColor="@color/teal_700"
+                        android:textSize="14sp" />
+
+                    <Button
+                        android:id="@+id/btnAddStep"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:background="@color/colorAccent"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="@string/button_addStep"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="16sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/stepsRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scrollbars="vertical"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+                    <Button
+                        android:id="@+id/chooseImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:background="@color/colorAccent"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="@string/button_addImage"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="16sp" />
+
+                    <Button
+                        android:id="@+id/btnTake_pic"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:background="@color/colorAccent"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="@string/btn_takePicture"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="16sp" />
+
+
+                    <ImageView
+                        android:id="@+id/recipeImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/recipeImage_content_desc"
+                        app:srcCompat="@mipmap/ic_launcher"
+                        android:src ="@{recipevm.observableRecipe.image}"/>
+
+                    <Button
+                        android:id="@+id/btnAdd"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:background="@color/teal_700"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:stateListAnimator="@null"
+                        android:text="@string/edit_recipe_toolbar"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </ScrollView>
+
+        </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

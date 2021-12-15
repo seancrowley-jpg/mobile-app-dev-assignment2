@@ -1,4 +1,4 @@
-package org.wit.recipes.fragments
+package org.wit.recipes.ui.map
 
 import androidx.fragment.app.Fragment
 

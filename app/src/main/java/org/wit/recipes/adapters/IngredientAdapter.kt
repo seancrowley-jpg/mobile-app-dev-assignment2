@@ -33,6 +33,7 @@ class IngredientAdapter constructor(private var ingredients: MutableList<String?
         fun bind(ingredient: String?, listener: IngredientListener) {
             binding.ingredientName.text = ingredient
             binding.btnDeleteIngredient.setOnClickListener{listener.onIngredientBtnClick(ingredient)}
+            //binding.executePendingBindings()
         }
     }
 }

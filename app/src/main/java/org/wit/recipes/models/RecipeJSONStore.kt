@@ -34,6 +34,11 @@ class RecipeJSONStore(private val context: Context) : RecipeStore {
         return recipes
     }
 
+    override fun findById(id: Long): RecipeModel? {
+        val foundRecipe: RecipeModel? = RecipeManager.recipes.find { it.id == id }
+        return foundRecipe
+    }
+
     override fun create(recipe: RecipeModel) {
         recipe.id = generateRandomId()
         recipes.add(recipe)

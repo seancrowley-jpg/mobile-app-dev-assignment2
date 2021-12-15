@@ -18,7 +18,7 @@ interface RecipeListener {
     fun onEditClick(recipe: RecipeModel)
 }
 
-class RecipeAdapter constructor(private var recipes: MutableList<RecipeModel>, private val listener: RecipeListener) :
+class RecipeAdapter constructor(private var recipes: List<RecipeModel>, private val listener: RecipeListener) :
     RecyclerView.Adapter<RecipeAdapter.MainHolder>(), Filterable {
 
     private val recipesFiltered = recipes
@@ -59,9 +59,9 @@ class RecipeAdapter constructor(private var recipes: MutableList<RecipeModel>, p
             }
 
             override fun publishResults(p0: CharSequence?, p1: FilterResults?) {
-                recipesFiltered.clear()
-                recipesFiltered.addAll(p1!!.values as ArrayList<RecipeModel>)
-                notifyDataSetChanged()
+                //recipesFiltered.clear()
+                //recipesFiltered.addAll(p1!!.values as ArrayList<RecipeModel>)
+                //notifyDataSetChanged()
             }
 
         }
@@ -71,13 +71,14 @@ class RecipeAdapter constructor(private var recipes: MutableList<RecipeModel>, p
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(recipe: RecipeModel, listener: RecipeListener) {
-            binding.recipeName.text = recipe.name
-            binding.recipeDescription.text = recipe.description
+            //binding.recipeName.text = recipe.name
+            //binding.recipeDescription.text = recipe.description
+            binding.recipe = recipe
             Picasso.get().load(recipe.image).resize(200,200).into(binding.imageIcon)
             binding.btnEditRecipe.setOnClickListener { listener.onEditClick(recipe) }
             binding.root.setOnClickListener { listener.onRecipeClick(recipe) }
             binding.btnDeleteRecipe.setOnClickListener { listener.onDeleteClick(recipe) }
-
+            binding.executePendingBindings()
         }
     }
 }
