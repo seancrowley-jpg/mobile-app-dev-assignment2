@@ -41,8 +41,8 @@ object RecipeManager: RecipeStore {
         }
     }
 
-    override fun delete(recipe: RecipeModel) {
-        recipes.remove(recipe)
+    override fun delete(id: Long) {
+        recipes.remove(findById(id))
     }
 
     override fun deleteAll(): MutableList<RecipeModel>{

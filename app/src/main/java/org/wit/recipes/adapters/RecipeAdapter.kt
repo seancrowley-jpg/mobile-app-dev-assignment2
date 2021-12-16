@@ -14,11 +14,11 @@ import kotlin.collections.ArrayList
 
 interface RecipeListener {
     fun onRecipeClick(recipe: RecipeModel)
-    fun onDeleteClick(recipe: RecipeModel)
+    fun onDeleteClick(id: Long)
     fun onEditClick(recipe: RecipeModel)
 }
 
-class RecipeAdapter constructor(private var recipes: List<RecipeModel>, private val listener: RecipeListener) :
+class RecipeAdapter constructor(private var recipes: ArrayList<RecipeModel>, private val listener: RecipeListener) :
     RecyclerView.Adapter<RecipeAdapter.MainHolder>(), Filterable {
 
     private val recipesFiltered = recipes
@@ -67,6 +67,11 @@ class RecipeAdapter constructor(private var recipes: List<RecipeModel>, private 
         }
     }
 
+    fun removeAt(position: Int) {
+        recipes.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
     class MainHolder(private val binding : CardRecipeBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -74,10 +79,11 @@ class RecipeAdapter constructor(private var recipes: List<RecipeModel>, private 
             //binding.recipeName.text = recipe.name
             //binding.recipeDescription.text = recipe.description
             binding.recipe = recipe
+            binding.root.tag = recipe.id
             Picasso.get().load(recipe.image).resize(200,200).into(binding.imageIcon)
             binding.btnEditRecipe.setOnClickListener { listener.onEditClick(recipe) }
             binding.root.setOnClickListener { listener.onRecipeClick(recipe) }
-            binding.btnDeleteRecipe.setOnClickListener { listener.onDeleteClick(recipe) }
+            binding.btnDeleteRecipe.setOnClickListener { listener.onDeleteClick(recipe.id) }
             binding.executePendingBindings()
         }
     }

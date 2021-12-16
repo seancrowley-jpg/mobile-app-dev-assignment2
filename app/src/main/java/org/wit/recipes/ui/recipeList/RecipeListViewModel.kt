@@ -21,8 +21,8 @@ class RecipeListViewModel : ViewModel(){
         recipeList.value = RecipeManager.findAll()
     }
 
-    fun deleteRecipe(recipeModel: RecipeModel) {
-        RecipeManager.delete(recipeModel)
+    fun deleteRecipe(id: Long) {
+        RecipeManager.delete(id)
     }
 
     fun deleteAllRecipes(){

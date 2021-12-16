@@ -11,7 +11,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.wit.recipes.R
 import org.wit.recipes.adapters.RecipeAdapter
@@ -22,7 +24,7 @@ import org.wit.recipes.helpers.hideLoader
 import org.wit.recipes.helpers.showLoader
 import org.wit.recipes.main.MainApp
 import org.wit.recipes.models.RecipeModel
-import org.wit.recipes.ui.recipe.RecipeViewModel
+import org.wit.recipes.ui.utils.SwipeToDeleteCallback
 
 class RecipeListFragment : Fragment(), RecipeListener {
     lateinit var app: MainApp
@@ -50,7 +52,7 @@ class RecipeListFragment : Fragment(), RecipeListener {
         showLoader(loader,"Loading Recipes")
         recipeListViewModel.observableRecipesList.observe(viewLifecycleOwner, Observer {
             recipes -> recipes?.let {
-            render(recipes)
+            render(recipes as ArrayList<RecipeModel>)
             hideLoader(loader)}
             checkSwipeRefresh()
         })
@@ -63,6 +65,16 @@ class RecipeListFragment : Fragment(), RecipeListener {
             val action = RecipeListFragmentDirections.actionRecipeListFragmentToRecipeFragment()
             findNavController().navigate(action)
         }
+
+        val swipeDeleteHandler = object : SwipeToDeleteCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val adapter = fragBinding.recyclerView.adapter as RecipeAdapter
+                adapter.removeAt(viewHolder.adapterPosition)
+                recipeListViewModel.deleteRecipe(viewHolder.itemView.tag as Long)
+            }
+        }
+        val itemTouchDeleteHelper = ItemTouchHelper(swipeDeleteHandler)
+        itemTouchDeleteHelper.attachToRecyclerView(fragBinding.recyclerView)
 
         return root
     }
@@ -96,7 +108,7 @@ class RecipeListFragment : Fragment(), RecipeListener {
             requireView().findNavController()) || super.onOptionsItemSelected(item)
     }
 
-    private fun render(recipeList: List<RecipeModel>) {
+    private fun render(recipeList: ArrayList<RecipeModel>) {
         fragBinding.recyclerView.adapter = RecipeAdapter(recipeList, this)
         if (recipeList.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE
@@ -135,8 +147,8 @@ class RecipeListFragment : Fragment(), RecipeListener {
         findNavController().navigate(action)
     }
 
-    override fun onDeleteClick(recipe: RecipeModel) {
-        recipeListViewModel.deleteRecipe(recipe)
+    override fun onDeleteClick(id: Long) {
+        recipeListViewModel.deleteRecipe(id)
         fragBinding.recyclerView.adapter?.notifyDataSetChanged()
     }
 
