@@ -1,4 +1,4 @@
-package org.wit.recipes.activities
+package org.wit.recipes.ui.splashScreen
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
