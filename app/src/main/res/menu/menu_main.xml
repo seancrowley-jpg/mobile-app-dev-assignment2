@@ -24,12 +24,6 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/item_logout"
-        android:orderInCategory="100"
-        android:title="@string/menu_logout"
-        />
-
-    <item
         android:id="@+id/item_delete_all"
         android:orderInCategory="100"
         android:title="@string/menu_delete_all"
