@@ -1,5 +1,6 @@
 package org.wit.recipes.ui.recipeList
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
@@ -16,6 +17,9 @@ import org.wit.recipes.R
 import org.wit.recipes.adapters.RecipeAdapter
 import org.wit.recipes.adapters.RecipeListener
 import org.wit.recipes.databinding.FragmentRecipeListBinding
+import org.wit.recipes.helpers.createLoader
+import org.wit.recipes.helpers.hideLoader
+import org.wit.recipes.helpers.showLoader
 import org.wit.recipes.main.MainApp
 import org.wit.recipes.models.RecipeModel
 import org.wit.recipes.ui.recipe.RecipeViewModel
@@ -26,6 +30,7 @@ class RecipeListFragment : Fragment(), RecipeListener {
     private val fragBinding get() = _fragBinding!!
     //private lateinit var adapter: RecipeAdapter
     private lateinit var recipeListViewModel: RecipeListViewModel
+    lateinit var loader : AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -39,10 +44,14 @@ class RecipeListFragment : Fragment(), RecipeListener {
     ): View? {
         _fragBinding = FragmentRecipeListBinding.inflate(inflater, container, false)
         val root = fragBinding.root
+        loader = createLoader(requireActivity())
         fragBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
         recipeListViewModel = ViewModelProvider(this).get(RecipeListViewModel::class.java)
+        showLoader(loader,"Loading Recipes")
         recipeListViewModel.observableRecipesList.observe(viewLifecycleOwner, Observer {
-            recipes -> recipes?.let { render(recipes)}
+            recipes -> recipes?.let {
+            render(recipes)
+            hideLoader(loader)}
         })
 
         //adapter = RecipeAdapter(app.recipes.findAll(),this)
