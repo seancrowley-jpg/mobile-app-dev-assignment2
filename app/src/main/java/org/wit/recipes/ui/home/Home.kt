@@ -11,9 +11,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.*
 import androidx.navigation.ui.*
 import com.google.firebase.auth.FirebaseUser
+import com.squareup.picasso.Picasso
 import org.wit.recipes.R
 import org.wit.recipes.databinding.HomeBinding
 import org.wit.recipes.databinding.NavHeaderBinding
+import org.wit.recipes.helpers.customTransformation
 import org.wit.recipes.ui.auth.LoggedInViewModel
 import org.wit.recipes.ui.auth.LoginActivity
 
@@ -66,6 +68,13 @@ class Home : AppCompatActivity() {
         var headerView = homeBinding.navView.getHeaderView(0)
         navHeaderBinding = NavHeaderBinding.bind(headerView)
         navHeaderBinding.navHeaderEmail.text = currentUser.email
+        if(currentUser.photoUrl != null && currentUser.displayName != null) {
+            Picasso.get().load(currentUser.photoUrl)
+                .resize(200, 200)
+                .transform(customTransformation())
+                .centerCrop()
+                .into(navHeaderBinding.imageView)
+        }
     }
 
     fun signOut(item: MenuItem) {
