@@ -52,7 +52,9 @@ class RecipeListFragment : Fragment(), RecipeListener {
             recipes -> recipes?.let {
             render(recipes)
             hideLoader(loader)}
+            checkSwipeRefresh()
         })
+        setSwipeRefresh()
 
         //adapter = RecipeAdapter(app.recipes.findAll(),this)
         //fragBinding.recyclerView.adapter = adapter
@@ -113,6 +115,19 @@ class RecipeListFragment : Fragment(), RecipeListener {
     override fun onDestroyView() {
         super.onDestroyView()
         _fragBinding = null
+    }
+
+    private fun setSwipeRefresh() {
+        fragBinding.swiperefresh.setOnRefreshListener {
+            fragBinding.swiperefresh.isRefreshing = true
+            showLoader(loader, "Loading Recipes")
+            recipeListViewModel.load()
+        }
+    }
+
+    private fun checkSwipeRefresh() {
+        if (fragBinding.swiperefresh.isRefreshing)
+            fragBinding.swiperefresh.isRefreshing = false
     }
 
     override fun onRecipeClick(recipe: RecipeModel) {
