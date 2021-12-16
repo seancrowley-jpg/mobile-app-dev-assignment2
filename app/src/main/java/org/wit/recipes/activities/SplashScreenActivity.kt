@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager
 import org.wit.recipes.R
+import org.wit.recipes.ui.auth.LoginActivity
 
 @Suppress("DEPRECATION")
 class SplashScreenActivity : AppCompatActivity() {
