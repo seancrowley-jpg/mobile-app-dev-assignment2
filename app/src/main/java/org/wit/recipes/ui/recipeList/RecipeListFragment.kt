@@ -25,6 +25,7 @@ import org.wit.recipes.helpers.showLoader
 import org.wit.recipes.main.MainApp
 import org.wit.recipes.models.RecipeModel
 import org.wit.recipes.ui.utils.SwipeToDeleteCallback
+import org.wit.recipes.ui.utils.SwipeToEditCallback
 
 class RecipeListFragment : Fragment(), RecipeListener {
     lateinit var app: MainApp
@@ -75,6 +76,14 @@ class RecipeListFragment : Fragment(), RecipeListener {
         }
         val itemTouchDeleteHelper = ItemTouchHelper(swipeDeleteHandler)
         itemTouchDeleteHelper.attachToRecyclerView(fragBinding.recyclerView)
+
+        val swipeEditHandler = object : SwipeToEditCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                onEditClick(viewHolder.itemView.tag as Long)
+            }
+        }
+        val itemTouchEditHelper = ItemTouchHelper(swipeEditHandler)
+        itemTouchEditHelper.attachToRecyclerView(fragBinding.recyclerView)
 
         return root
     }
@@ -142,8 +151,8 @@ class RecipeListFragment : Fragment(), RecipeListener {
             fragBinding.swiperefresh.isRefreshing = false
     }
 
-    override fun onRecipeClick(recipe: RecipeModel) {
-        val action = RecipeListFragmentDirections.actionRecipeListFragmentToViewRecipeFragment(recipe.id)
+    override fun onRecipeClick(id: Long) {
+        val action = RecipeListFragmentDirections.actionRecipeListFragmentToViewRecipeFragment(id)
         findNavController().navigate(action)
     }
 
@@ -152,8 +161,8 @@ class RecipeListFragment : Fragment(), RecipeListener {
         fragBinding.recyclerView.adapter?.notifyDataSetChanged()
     }
 
-    override fun onEditClick(recipe: RecipeModel) {
-        val action = RecipeListFragmentDirections.actionRecipeListFragmentToEditRecipeFragment(recipe.id)
+    override fun onEditClick(id: Long) {
+        val action = RecipeListFragmentDirections.actionRecipeListFragmentToEditRecipeFragment(id)
         findNavController().navigate(action)
     }
 }

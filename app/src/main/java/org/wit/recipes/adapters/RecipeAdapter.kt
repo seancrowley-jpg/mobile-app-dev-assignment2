@@ -13,9 +13,9 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 interface RecipeListener {
-    fun onRecipeClick(recipe: RecipeModel)
+    fun onRecipeClick(id: Long)
     fun onDeleteClick(id: Long)
-    fun onEditClick(recipe: RecipeModel)
+    fun onEditClick(id: Long)
 }
 
 class RecipeAdapter constructor(private var recipes: ArrayList<RecipeModel>, private val listener: RecipeListener) :
@@ -81,8 +81,8 @@ class RecipeAdapter constructor(private var recipes: ArrayList<RecipeModel>, pri
             binding.recipe = recipe
             binding.root.tag = recipe.id
             Picasso.get().load(recipe.image).resize(200,200).into(binding.imageIcon)
-            binding.btnEditRecipe.setOnClickListener { listener.onEditClick(recipe) }
-            binding.root.setOnClickListener { listener.onRecipeClick(recipe) }
+            binding.btnEditRecipe.setOnClickListener { listener.onEditClick(recipe.id) }
+            binding.root.setOnClickListener { listener.onRecipeClick(recipe.id) }
             binding.btnDeleteRecipe.setOnClickListener { listener.onDeleteClick(recipe.id) }
             binding.executePendingBindings()
         }
