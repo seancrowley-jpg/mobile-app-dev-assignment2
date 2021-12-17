@@ -6,6 +6,7 @@ import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -24,6 +25,7 @@ import org.wit.recipes.helpers.hideLoader
 import org.wit.recipes.helpers.showLoader
 import org.wit.recipes.main.MainApp
 import org.wit.recipes.models.RecipeModel
+import org.wit.recipes.ui.auth.LoggedInViewModel
 import org.wit.recipes.ui.utils.SwipeToDeleteCallback
 import org.wit.recipes.ui.utils.SwipeToEditCallback
 
@@ -32,7 +34,8 @@ class RecipeListFragment : Fragment(), RecipeListener {
     private var _fragBinding: FragmentRecipeListBinding? = null
     private val fragBinding get() = _fragBinding!!
     //private lateinit var adapter: RecipeAdapter
-    private lateinit var recipeListViewModel: RecipeListViewModel
+    private val recipeListViewModel: RecipeListViewModel by activityViewModels()
+    private val loggedInViewModel: LoggedInViewModel by activityViewModels()
     lateinit var loader : AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +52,7 @@ class RecipeListFragment : Fragment(), RecipeListener {
         val root = fragBinding.root
         loader = createLoader(requireActivity())
         fragBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
-        recipeListViewModel = ViewModelProvider(this).get(RecipeListViewModel::class.java)
+        //recipeListViewModel = ViewModelProvider(this).get(RecipeListViewModel::class.java)
         showLoader(loader,"Loading Recipes")
         recipeListViewModel.observableRecipesList.observe(viewLifecycleOwner, Observer {
             recipes -> recipes?.let {
@@ -71,7 +74,9 @@ class RecipeListFragment : Fragment(), RecipeListener {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val adapter = fragBinding.recyclerView.adapter as RecipeAdapter
                 adapter.removeAt(viewHolder.adapterPosition)
-                recipeListViewModel.deleteRecipe(viewHolder.itemView.tag as Long)
+                recipeListViewModel.deleteRecipe(loggedInViewModel.liveFirebaseUser.value?.uid!!,
+                    (viewHolder.itemView.tag as RecipeModel).uid!!)
+                hideLoader(loader)
             }
         }
         val itemTouchDeleteHelper = ItemTouchHelper(swipeDeleteHandler)
@@ -79,7 +84,7 @@ class RecipeListFragment : Fragment(), RecipeListener {
 
         val swipeEditHandler = object : SwipeToEditCallback(requireContext()) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                onEditClick(viewHolder.itemView.tag as Long)
+                onEditClick(viewHolder.itemView.tag as RecipeModel)
             }
         }
         val itemTouchEditHelper = ItemTouchHelper(swipeEditHandler)
@@ -111,7 +116,7 @@ class RecipeListFragment : Fragment(), RecipeListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.item_delete_all){
             recipeListViewModel.deleteAllRecipes()
-            fragBinding.recyclerView.adapter?.notifyDataSetChanged()
+            hideLoader(loader)
         }
         return NavigationUI.onNavDestinationSelected(item,
             requireView().findNavController()) || super.onOptionsItemSelected(item)
@@ -130,7 +135,13 @@ class RecipeListFragment : Fragment(), RecipeListener {
 
     override fun onResume() {
         super.onResume()
-        recipeListViewModel.load()
+        showLoader(loader,"Loading..")
+        loggedInViewModel.liveFirebaseUser.observe(viewLifecycleOwner, Observer { firebaseUser ->
+            if (firebaseUser != null) {
+                recipeListViewModel.liveFirebaseUser.value = firebaseUser
+                recipeListViewModel.load()
+            }
+        })
     }
 
     override fun onDestroyView() {
@@ -151,18 +162,18 @@ class RecipeListFragment : Fragment(), RecipeListener {
             fragBinding.swiperefresh.isRefreshing = false
     }
 
-    override fun onRecipeClick(id: Long) {
-        val action = RecipeListFragmentDirections.actionRecipeListFragmentToViewRecipeFragment(id)
+    override fun onRecipeClick(recipe: RecipeModel) {
+        val action = RecipeListFragmentDirections.actionRecipeListFragmentToViewRecipeFragment(recipe.uid!!)
         findNavController().navigate(action)
     }
 
-    override fun onDeleteClick(id: Long) {
-        recipeListViewModel.deleteRecipe(id)
+    override fun onDeleteClick(recipe: RecipeModel) {
+        recipeListViewModel.deleteRecipe(recipeListViewModel.liveFirebaseUser.value?.uid!!,recipe.uid!!)
         fragBinding.recyclerView.adapter?.notifyDataSetChanged()
     }
 
-    override fun onEditClick(id: Long) {
-        val action = RecipeListFragmentDirections.actionRecipeListFragmentToEditRecipeFragment(id)
+    override fun onEditClick(recipe: RecipeModel) {
+        val action = RecipeListFragmentDirections.actionRecipeListFragmentToEditRecipeFragment(recipe.uid!!)
         findNavController().navigate(action)
     }
 }

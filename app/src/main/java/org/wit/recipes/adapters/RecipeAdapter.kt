@@ -8,14 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import org.wit.recipes.databinding.CardRecipeBinding
 import org.wit.recipes.models.RecipeModel
-import timber.log.Timber
-import java.util.*
 import kotlin.collections.ArrayList
 
 interface RecipeListener {
-    fun onRecipeClick(id: Long)
-    fun onDeleteClick(id: Long)
-    fun onEditClick(id: Long)
+    fun onRecipeClick(recipe: RecipeModel)
+    fun onDeleteClick(recipe: RecipeModel)
+    fun onEditClick(recipe: RecipeModel)
 }
 
 class RecipeAdapter constructor(private var recipes: ArrayList<RecipeModel>, private val listener: RecipeListener) :
@@ -79,11 +77,11 @@ class RecipeAdapter constructor(private var recipes: ArrayList<RecipeModel>, pri
             //binding.recipeName.text = recipe.name
             //binding.recipeDescription.text = recipe.description
             binding.recipe = recipe
-            binding.root.tag = recipe.id
-            Picasso.get().load(recipe.image).resize(200,200).into(binding.imageIcon)
-            binding.btnEditRecipe.setOnClickListener { listener.onEditClick(recipe.id) }
-            binding.root.setOnClickListener { listener.onRecipeClick(recipe.id) }
-            binding.btnDeleteRecipe.setOnClickListener { listener.onDeleteClick(recipe.id) }
+            binding.root.tag = recipe
+            //Picasso.get().load(recipe.image).resize(200,200).into(binding.imageIcon)
+            binding.btnEditRecipe.setOnClickListener { listener.onEditClick(recipe) }
+            binding.root.setOnClickListener { listener.onRecipeClick(recipe) }
+            binding.btnDeleteRecipe.setOnClickListener { listener.onDeleteClick(recipe) }
             binding.executePendingBindings()
         }
     }

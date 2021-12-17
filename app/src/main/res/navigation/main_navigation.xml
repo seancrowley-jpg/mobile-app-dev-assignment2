@@ -15,10 +15,6 @@
             app:destination="@id/recipeListFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
-        <argument
-            android:name="recipeid"
-            app:argType="long"
-            android:defaultValue="0L" />
     </fragment>
     <fragment
         android:id="@+id/recipeListFragment"
@@ -49,7 +45,7 @@
         tools:layout="@layout/fragment_view_recipe" >
         <argument
             android:name="recipeid"
-            app:argType="long" />
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/editRecipeFragment"
@@ -57,6 +53,6 @@
         android:label="EditRecipeFragment" >
         <argument
             android:name="recipeid"
-            app:argType="long" />
+            app:argType="string" />
     </fragment>
 </navigation>

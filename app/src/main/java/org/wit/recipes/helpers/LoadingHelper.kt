@@ -7,7 +7,7 @@ import org.wit.recipes.R
 
 fun createLoader(activity: FragmentActivity) : AlertDialog {
     val loaderBuilder = AlertDialog.Builder(activity)
-        .setCancelable(true) // 'false' if you want user to wait
+        .setCancelable(true)
         .setView(R.layout.loading)
     var loader = loaderBuilder.create()
     loader.setTitle(R.string.app_name)
@@ -31,7 +31,7 @@ fun hideLoader(loader: AlertDialog) {
 fun serviceUnavailableMessage(activity: FragmentActivity) {
     Toast.makeText(
         activity,
-        "Donation Service Unavailable. Try again later",
+        "Service Unavailable. Try again later",
         Toast.LENGTH_LONG
     ).show()
 }

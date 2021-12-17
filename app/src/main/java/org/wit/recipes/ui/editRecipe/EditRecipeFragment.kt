@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -29,6 +30,7 @@ import org.wit.recipes.adapters.StepsAdapter
 import org.wit.recipes.databinding.FragmentEditRecipeBinding
 import org.wit.recipes.helpers.showImagePicker
 import org.wit.recipes.models.RecipeModel
+import org.wit.recipes.ui.auth.LoggedInViewModel
 import timber.log.Timber
 import java.io.File
 
@@ -42,6 +44,7 @@ class EditRecipeFragment : Fragment(), IngredientListener, StepListener {
     private var FILE_NAME = "photo"
     private lateinit var editRecipeViewModel: EditRecipeViewModel
     private val args by navArgs<EditRecipeFragmentArgs>()
+    private val loggedInViewModel : LoggedInViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,14 +100,14 @@ class EditRecipeFragment : Fragment(), IngredientListener, StepListener {
 
     private fun renderRecipe(recipe: RecipeModel) {
         fragBinding.recipevm = editRecipeViewModel
-        Picasso.get().load(recipe.image).into(fragBinding.recipeImage)
+        //Picasso.get().load(recipe.image).into(fragBinding.recipeImage)
         fragBinding.recyclerView.adapter = IngredientAdapter(recipe.ingredients, this)
         fragBinding.stepsRecyclerView.adapter = StepsAdapter(recipe.steps, this)
     }
 
     fun setButtonListener(layout: FragmentEditRecipeBinding) {
         layout.btnAdd.setOnClickListener() {
-            fragBinding.recipevm?.observableRecipe!!.value!!.id = args.recipeid
+            fragBinding.recipevm?.observableRecipe!!.value!!.uid = args.recipeid
             fragBinding.recipevm?.observableRecipe!!.value!!.name = layout.recipeName.text.toString()
             fragBinding.recipevm?.observableRecipe!!.value!!.description = layout.recipeDescription.text.toString()
             fragBinding.recipevm?.observableRecipe!!.value!!.meal = layout.mealText.text.toString()
@@ -118,7 +121,7 @@ class EditRecipeFragment : Fragment(), IngredientListener, StepListener {
             }
             else {
                 Timber.i("Recipe: ${fragBinding.recipevm?.observableRecipe!!.value!!}")
-                editRecipeViewModel.updateRecipe(fragBinding.recipevm?.observableRecipe!!.value!!)
+                editRecipeViewModel.updateRecipe(fragBinding.recipevm?.observableRecipe!!.value!!, loggedInViewModel.liveFirebaseUser.value?.uid!!, args.recipeid)
             }
         }
         layout.btnAddIngredient.setOnClickListener() {
@@ -168,7 +171,7 @@ class EditRecipeFragment : Fragment(), IngredientListener, StepListener {
 
     override fun onResume() {
         super.onResume()
-        editRecipeViewModel.getRecipe(args.recipeid)
+        editRecipeViewModel.getRecipe(loggedInViewModel.liveFirebaseUser.value?.uid!!,args.recipeid)
     }
 
     override fun onIngredientBtnClick(ingredient: String?) {
@@ -194,7 +197,7 @@ class EditRecipeFragment : Fragment(), IngredientListener, StepListener {
                     AppCompatActivity.RESULT_OK -> {
                         if (result.data != null) {
                             Timber.i("Got Result ${result.data!!.data}")
-                            fragBinding.recipevm?.observableRecipe!!.value!!.image = result.data!!.data!!
+                            fragBinding.recipevm?.observableRecipe!!.value!!.image = result.data!!.data.toString()
                             Picasso.get().load(fragBinding.recipevm?.observableRecipe!!.value!!.image).into(fragBinding.recipeImage)
                             fragBinding.chooseImage.setText(R.string.change_recipe_image)
                         }
@@ -211,7 +214,7 @@ class EditRecipeFragment : Fragment(), IngredientListener, StepListener {
                 when(result.resultCode){
                     AppCompatActivity.RESULT_OK -> {
                         Timber.i("Got Result ${result.data!!.data}")
-                        fragBinding.recipevm?.observableRecipe!!.value!!.image = photoFile.toUri()
+                        fragBinding.recipevm?.observableRecipe!!.value!!.image = photoFile.toString()
                         Picasso.get().load(fragBinding.recipevm?.observableRecipe!!.value!!.image).into(fragBinding.recipeImage)
                         fragBinding.chooseImage.setText(R.string.change_recipe_image)
                     }

@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -25,6 +26,7 @@ import org.wit.recipes.adapters.*
 import org.wit.recipes.databinding.FragmentRecipeBinding
 import org.wit.recipes.helpers.showImagePicker
 import org.wit.recipes.models.RecipeModel
+import org.wit.recipes.ui.auth.LoggedInViewModel
 import timber.log.Timber
 import java.io.File
 
@@ -39,6 +41,7 @@ class RecipeFragment : Fragment(), IngredientListener, StepListener {
     private lateinit var photoFile: File
     private var FILE_NAME = "photo"
     private lateinit var recipeViewModel: RecipeViewModel
+    private val loggedInViewModel : LoggedInViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,7 +104,7 @@ class RecipeFragment : Fragment(), IngredientListener, StepListener {
                 Snackbar.make(it,"Please pick a meal type", Snackbar.LENGTH_LONG).show()
             }
             else {
-                recipeViewModel.addRecipe(recipe)
+                recipeViewModel.addRecipe(loggedInViewModel.liveFirebaseUser,recipe)
             }
         }
         layout.btnAddIngredient.setOnClickListener() {
@@ -184,7 +187,7 @@ class RecipeFragment : Fragment(), IngredientListener, StepListener {
                     AppCompatActivity.RESULT_OK -> {
                         if (result.data != null) {
                             Timber.i("Got Result ${result.data!!.data}")
-                            recipe.image = result.data!!.data!!
+                            recipe.image = result.data!!.data.toString()
                             Picasso.get().load(recipe.image).into(fragBinding.recipeImage)
                             fragBinding.chooseImage.setText(R.string.change_recipe_image)
                         }
@@ -201,7 +204,7 @@ class RecipeFragment : Fragment(), IngredientListener, StepListener {
                 when(result.resultCode){
                     AppCompatActivity.RESULT_OK -> {
                         Timber.i("Got Result ${result.data!!.data}")
-                        recipe.image = photoFile.toUri()
+                        recipe.image = photoFile.toString()
                         Timber.i("Image ${recipe.image}")
                         Picasso.get().load(recipe.image).into(fragBinding.recipeImage)
                         fragBinding.chooseImage.setText(R.string.change_recipe_image)
