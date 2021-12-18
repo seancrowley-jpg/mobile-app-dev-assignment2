@@ -22,4 +22,9 @@
     <style name="Theme.RecipesApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.RecipesApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="toggleStyle">
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/black</item>
+    </style>
 </resources>

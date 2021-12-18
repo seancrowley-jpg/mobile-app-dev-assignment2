@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.SearchView
+import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -110,6 +111,16 @@ class RecipeListFragment : Fragment(), RecipeListener {
             }
 
         })
+
+        val item = menu.findItem(R.id.toggleRecipes) as MenuItem
+        item.setActionView(R.layout.togglebutton_layout)
+        val toggleRecipes: SwitchCompat = item.actionView.findViewById(R.id.toggleButton)
+        toggleRecipes.isChecked = false
+
+        toggleRecipes.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) recipeListViewModel.loadAll()
+            else recipeListViewModel.load()
+        }
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -123,7 +134,7 @@ class RecipeListFragment : Fragment(), RecipeListener {
     }
 
     private fun render(recipeList: ArrayList<RecipeModel>) {
-        fragBinding.recyclerView.adapter = RecipeAdapter(recipeList, this)
+        fragBinding.recyclerView.adapter = RecipeAdapter(recipeList, this, recipeListViewModel.readOnly.value!!)
         if (recipeList.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE
             fragBinding.recipesNotFound.visibility = View.VISIBLE
@@ -153,7 +164,10 @@ class RecipeListFragment : Fragment(), RecipeListener {
         fragBinding.swiperefresh.setOnRefreshListener {
             fragBinding.swiperefresh.isRefreshing = true
             showLoader(loader, "Loading Recipes")
-            recipeListViewModel.load()
+            if(recipeListViewModel.readOnly.value!!)
+                recipeListViewModel.loadAll()
+            else
+                recipeListViewModel.load()
         }
     }
 

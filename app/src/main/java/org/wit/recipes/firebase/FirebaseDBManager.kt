@@ -12,7 +12,25 @@ object FirebaseDBManager : RecipeStore {
     var database: DatabaseReference = FirebaseDatabase.getInstance("https://recipes-app-2f164-default-rtdb.europe-west1.firebasedatabase.app/").reference
 
     override fun findAll(recipeList: MutableLiveData<List<RecipeModel>>) {
-        TODO("Not yet implemented")
+        database.child("recipes")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    Timber.i("Firebase error : ${error.message}")
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val localList = ArrayList<RecipeModel>()
+                    val children = snapshot.children
+                    children.forEach {
+                        val recipe = it.getValue(RecipeModel::class.java)
+                        localList.add(recipe!!)
+                    }
+                    database.child("recipes")
+                        .removeEventListener(this)
+
+                    recipeList.value = localList
+                }
+            })
     }
 
     override fun findAll(userid: String, recipeList: MutableLiveData<List<RecipeModel>>) {
@@ -38,6 +56,16 @@ object FirebaseDBManager : RecipeStore {
 
     override fun findById(userid: String, recipeId: String, recipe: MutableLiveData<RecipeModel>) {
         database.child("user-recipes").child(userid)
+            .child(recipeId).get().addOnSuccessListener {
+                recipe.value = it.getValue(RecipeModel::class.java)
+                Timber.i("firebase Got value ${it.value}")
+            }.addOnFailureListener{
+                Timber.e("firebase Error getting data $it")
+            }
+    }
+
+    override fun findRecipeById(recipeId: String, recipe: MutableLiveData<RecipeModel>) {
+        database.child("recipes")
             .child(recipeId).get().addOnSuccessListener {
                 recipe.value = it.getValue(RecipeModel::class.java)
                 Timber.i("firebase Got value ${it.value}")

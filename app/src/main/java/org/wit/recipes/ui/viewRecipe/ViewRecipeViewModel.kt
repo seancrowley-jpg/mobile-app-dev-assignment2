@@ -14,9 +14,9 @@ class ViewRecipeViewModel: ViewModel() {
     val observableRecipe: LiveData<RecipeModel>
         get() = recipe
 
-    fun getRecipe(userid:String, id: String) {
+    fun getRecipe(id: String) {
         try {
-            FirebaseDBManager.findById(userid, id, recipe)
+            FirebaseDBManager.findRecipeById(id, recipe)
             Timber.i("Success got recipe info : ${recipe.value.toString()}")
         } catch (e: Exception) {
             Timber.i("Error : $e.message")

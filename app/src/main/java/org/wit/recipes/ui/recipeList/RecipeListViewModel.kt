@@ -15,6 +15,7 @@ class RecipeListViewModel : ViewModel(){
     private val recipeList = MutableLiveData<List<RecipeModel>>()
 
     var liveFirebaseUser = MutableLiveData<FirebaseUser>()
+    var readOnly = MutableLiveData(false)
 
     val observableRecipesList: LiveData<List<RecipeModel>>
         get() = recipeList
@@ -26,12 +27,24 @@ class RecipeListViewModel : ViewModel(){
     fun load() {
         try {
             Timber.i("Firebase User Id: ${liveFirebaseUser.value?.uid!!}")
+            //readOnly.value = false
             FirebaseDBManager.findAll(liveFirebaseUser.value?.uid!!,
                 recipeList)
             Timber.i("Load Success : ${recipeList.value.toString()}")
         }
         catch (e: Exception) {
             Timber.i("Load Error : $e.message")
+        }
+    }
+
+    fun loadAll() {
+        try {
+            //readOnly.value = true
+            FirebaseDBManager.findAll(recipeList)
+            Timber.i("LoadAll Success : ${recipeList.value.toString()}")
+        }
+        catch (e: Exception) {
+            Timber.i("LoadAll Error : $e.message")
         }
     }
 

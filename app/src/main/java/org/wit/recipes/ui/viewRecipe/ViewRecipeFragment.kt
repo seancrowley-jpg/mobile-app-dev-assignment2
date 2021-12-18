@@ -72,7 +72,7 @@ class ViewRecipeFragment : Fragment(), IngredientListener, StepListener {
 
     override fun onResume() {
         super.onResume()
-        viewRecipeViewModel.getRecipe(loggedInViewModel.liveFirebaseUser.value?.uid!!,args.recipeid)
+        viewRecipeViewModel.getRecipe(args.recipeid)
 
     }
 

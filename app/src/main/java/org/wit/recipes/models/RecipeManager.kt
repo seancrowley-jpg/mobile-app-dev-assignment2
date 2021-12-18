@@ -26,6 +26,10 @@ object RecipeManager: RecipeStore {
         //return foundRecipe
     }
 
+    override fun findRecipeById(recipeId: String, recipe: MutableLiveData<RecipeModel>) {
+        TODO("Not yet implemented")
+    }
+
     override fun create(firebaseUser: MutableLiveData<FirebaseUser>, recipe: RecipeModel) {
         //recipe.uid= getId()
         recipes.add(recipe)
