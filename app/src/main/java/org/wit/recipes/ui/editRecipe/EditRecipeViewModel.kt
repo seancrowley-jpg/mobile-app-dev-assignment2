@@ -9,11 +9,7 @@ import org.wit.recipes.models.RecipeModel
 import timber.log.Timber
 
 class EditRecipeViewModel : ViewModel() {
-    private val status = MutableLiveData<Boolean>()
     private val recipe = MutableLiveData<RecipeModel>()
-
-    val observableStatus: LiveData<Boolean>
-        get() = status
 
     var observableRecipe: LiveData<RecipeModel>
         get() = recipe

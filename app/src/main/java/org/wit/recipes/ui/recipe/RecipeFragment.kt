@@ -186,7 +186,7 @@ class RecipeFragment : Fragment(), IngredientListener, StepListener {
                 when(result.resultCode){
                     AppCompatActivity.RESULT_OK -> {
                         if (result.data != null) {
-                            Timber.i("Got Result ${result.data!!.data}")
+                            Timber.i("Got Result ${result.data!!.data.toString()}")
                             recipe.image = result.data!!.data.toString()
                             Picasso.get().load(recipe.image).into(fragBinding.recipeImage)
                             fragBinding.chooseImage.setText(R.string.change_recipe_image)
@@ -203,8 +203,8 @@ class RecipeFragment : Fragment(), IngredientListener, StepListener {
             { result ->
                 when(result.resultCode){
                     AppCompatActivity.RESULT_OK -> {
-                        Timber.i("Got Result ${result.data!!.data}")
-                        recipe.image = photoFile.toString()
+                        Timber.i("Got Result $photoFile")
+                        recipe.image = photoFile.toUri().toString()
                         Timber.i("Image ${recipe.image}")
                         Picasso.get().load(recipe.image).into(fragBinding.recipeImage)
                         fragBinding.chooseImage.setText(R.string.change_recipe_image)
