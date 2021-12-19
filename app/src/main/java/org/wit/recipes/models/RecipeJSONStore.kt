@@ -49,7 +49,7 @@ class RecipeJSONStore(private val context: Context) : RecipeStore {
         TODO("Not yet implemented")
     }
 
-    override fun create(firebaseUser: MutableLiveData<FirebaseUser>, recipe: RecipeModel) {
+    override fun create(firebaseUser: MutableLiveData<FirebaseUser>, recipe: RecipeModel, context: Context) {
         recipe.uid = getId()
         recipes.add(recipe)
         serialize()

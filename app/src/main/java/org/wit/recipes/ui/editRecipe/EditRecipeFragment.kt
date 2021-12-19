@@ -86,6 +86,7 @@ class EditRecipeFragment : Fragment(), IngredientListener, StepListener {
 
     private fun render(recipe: RecipeModel ) {
         fragBinding.recipevm = editRecipeViewModel
+        Picasso.get().load(recipe.image).into(fragBinding.recipeImage)
         fragBinding.recyclerView.adapter = IngredientAdapter(recipe.ingredients, this)
         fragBinding.stepsRecyclerView.adapter = StepsAdapter(recipe.steps, this)
     }

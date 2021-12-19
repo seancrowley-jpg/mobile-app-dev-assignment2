@@ -104,7 +104,7 @@ class RecipeFragment : Fragment(), IngredientListener, StepListener {
                 Snackbar.make(it,"Please pick a meal type", Snackbar.LENGTH_LONG).show()
             }
             else {
-                recipeViewModel.addRecipe(loggedInViewModel.liveFirebaseUser,recipe)
+                recipeViewModel.addRecipe(loggedInViewModel.liveFirebaseUser,recipe, context!!)
             }
         }
         layout.btnAddIngredient.setOnClickListener() {

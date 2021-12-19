@@ -1,5 +1,6 @@
 package org.wit.recipes.models
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseUser
 import timber.log.Timber.i
@@ -30,7 +31,7 @@ object RecipeManager: RecipeStore {
         TODO("Not yet implemented")
     }
 
-    override fun create(firebaseUser: MutableLiveData<FirebaseUser>, recipe: RecipeModel) {
+    override fun create(firebaseUser: MutableLiveData<FirebaseUser>, recipe: RecipeModel, context: Context) {
         //recipe.uid= getId()
         recipes.add(recipe)
         logAll()

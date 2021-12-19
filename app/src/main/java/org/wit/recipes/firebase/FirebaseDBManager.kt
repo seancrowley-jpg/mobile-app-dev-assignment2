@@ -1,15 +1,23 @@
 package org.wit.recipes.firebase
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
+import org.wit.recipes.helpers.readImageFromPath
 import org.wit.recipes.models.RecipeModel
 import org.wit.recipes.models.RecipeStore
 import timber.log.Timber
+import java.io.ByteArrayOutputStream
+import java.io.File
 
 object FirebaseDBManager : RecipeStore {
 
     var database: DatabaseReference = FirebaseDatabase.getInstance("https://recipes-app-2f164-default-rtdb.europe-west1.firebasedatabase.app/").reference
+    var storage = FirebaseStorage.getInstance().reference
 
     override fun findAll(recipeList: MutableLiveData<List<RecipeModel>>) {
         database.child("recipes")
@@ -74,7 +82,7 @@ object FirebaseDBManager : RecipeStore {
             }
     }
 
-    override fun create(firebaseUser: MutableLiveData<FirebaseUser>, recipe: RecipeModel) {
+    override fun create(firebaseUser: MutableLiveData<FirebaseUser>, recipe: RecipeModel, context: Context) {
         Timber.i("Firebase DB Reference : $database")
         val uid = firebaseUser.value!!.uid
         val key = database.child("recipes").push().key
@@ -88,6 +96,7 @@ object FirebaseDBManager : RecipeStore {
         childAdd["/recipes/$key"] = recipeValues
         childAdd["/user-recipes/$uid/$key"] = recipeValues
         database.updateChildren(childAdd)
+        updateImage(recipe,uid, context)
     }
 
     override fun update(userid: String, recipeId: String, recipe: RecipeModel) {
@@ -109,5 +118,31 @@ object FirebaseDBManager : RecipeStore {
         val childDelete : MutableMap<String, Any?> = HashMap()
         childDelete["/user-recipes/$userid/"] = null
         database.updateChildren(childDelete)
+    }
+
+    fun updateImage(recipe: RecipeModel, userid: String, context: Context) {
+        if (recipe.image != "") {
+            val fileName = File(recipe.image)
+            val imageName = fileName.getName()
+
+            var imageRef = storage.child("$userid/$imageName")
+            val baos = ByteArrayOutputStream()
+            val bitmap = readImageFromPath(context, recipe.image)
+
+            bitmap?.let {
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                val data = baos.toByteArray()
+                val uploadTask = imageRef.putBytes(data)
+                uploadTask.addOnFailureListener {
+                    println(it.message)
+                }.addOnSuccessListener { taskSnapshot ->
+                    taskSnapshot.metadata!!.reference!!.downloadUrl.addOnSuccessListener {
+                        recipe.image = it.toString()
+                        database.child("recipes").child(recipe.uid!!).child("image").setValue(recipe.image)
+                        database.child("user-recipes").child(userid).child(recipe.uid!!).child("image").setValue(recipe.image)
+                    }
+                }
+            }
+        }
     }
 }
