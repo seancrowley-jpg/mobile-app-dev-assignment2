@@ -1,5 +1,6 @@
 package org.wit.recipes.ui.editRecipe
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -24,9 +25,9 @@ class EditRecipeViewModel : ViewModel() {
         }
     }
 
-    fun updateRecipe(recipe: RecipeModel,userid:String, id: String) {
+    fun updateRecipe(recipe: RecipeModel,userid:String, id: String, context: Context) {
         try {
-            FirebaseDBManager.update(userid, id, recipe)
+            FirebaseDBManager.update(userid, id, recipe, context)
             Timber.i("Success updated recipe : $recipe")
         } catch (e: Exception) {
             Timber.i("Error : $e.message")

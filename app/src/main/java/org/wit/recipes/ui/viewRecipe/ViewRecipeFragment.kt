@@ -65,9 +65,10 @@ class ViewRecipeFragment : Fragment(), IngredientListener, StepListener {
 
     private fun render(recipe: RecipeModel) {
         fragBinding.recipevm = viewRecipeViewModel
-        Picasso.get().load(recipe.image).into(fragBinding.recipeViewImage)
         fragBinding.ingredientRecyclerRecipeView.adapter = IngredientAdapter(recipe.ingredients, this)
         fragBinding.stepsRecyclerRecipeView.adapter = StepsAdapter(recipe.steps, this)
+        if (recipe.image != "")
+            Picasso.get().load(recipe.image).into(fragBinding.recipeViewImage)
     }
 
     override fun onResume() {

@@ -99,12 +99,13 @@ object FirebaseDBManager : RecipeStore {
         updateImage(recipe,uid, context)
     }
 
-    override fun update(userid: String, recipeId: String, recipe: RecipeModel) {
+    override fun update(userid: String, recipeId: String, recipe: RecipeModel, context: Context) {
         val recipeValues = recipe.toMap()
         val childUpdate : MutableMap<String, Any?> = HashMap()
         childUpdate["recipes/$recipeId"] = recipeValues
         childUpdate["user-recipes/$userid/$recipeId"] = recipeValues
         database.updateChildren(childUpdate)
+        updateImage(recipe,userid, context)
     }
 
     override fun delete(userid: String, recipeId: String) {

@@ -37,7 +37,7 @@ object RecipeManager: RecipeStore {
         logAll()
     }
 
-    override fun update(userid: String, recipeId: String, recipe: RecipeModel) {
+    override fun update(userid: String, recipeId: String, recipe: RecipeModel, context: Context) {
         var foundRecipe: RecipeModel? = recipes.find { r -> r.uid == recipe.uid }
         if (foundRecipe != null) {
             foundRecipe.name = recipe.name
