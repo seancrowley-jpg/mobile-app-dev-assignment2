@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.RecipesApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#7A5D04</item>
+        <item name="colorPrimary">#A88006</item>
         <item name="colorPrimaryVariant">@color/black</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->

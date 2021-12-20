@@ -44,6 +44,7 @@
     <string name="edit_recipe_toolbar">Edit Recipe</string>
     <string name="create_recipe_toolbar">Create Recipe</string>
     <string name="view_recipe_toolbar">Recipe</string>
+    <string name="recipe_list_toolbar">Recipe List</string>
     <string-array name="meals">
         <item>Breakfast</item>
         <item>Lunch</item>
