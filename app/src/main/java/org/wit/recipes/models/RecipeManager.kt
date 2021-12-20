@@ -1,33 +1,44 @@
 package org.wit.recipes.models
 
+import android.content.Context
+import androidx.lifecycle.MutableLiveData
+import com.google.firebase.auth.FirebaseUser
 import timber.log.Timber.i
 
-var lastId = 0L
+var lastId = "0"
 
-internal fun getId(): Long {
-    return lastId++
+internal fun getId(): String {
+    return lastId + "1"
 }
 
 object RecipeManager: RecipeStore {
     val recipes = ArrayList<RecipeModel>()
 
-    override fun findAll(): MutableList<RecipeModel> {
-        return recipes
+    override fun findAll(recipeList: MutableLiveData<List<RecipeModel>>) {
+        //return recipes
     }
 
-    override fun findById(id: Long): RecipeModel? {
-        val foundRecipe: RecipeModel? = recipes.find { it.id == id }
-        return foundRecipe
+    override fun findAll(userid: String, recipeList: MutableLiveData<List<RecipeModel>>) {
+        TODO("Not yet implemented")
     }
 
-    override fun create(recipe: RecipeModel) {
-        recipe.id= getId()
+    override fun findById(id: String, recipeId: String, recipe: MutableLiveData<RecipeModel>) {
+        val foundRecipe: RecipeModel? = recipes.find { it.uid == id }
+        //return foundRecipe
+    }
+
+    override fun findRecipeById(recipeId: String, recipe: MutableLiveData<RecipeModel>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun create(firebaseUser: MutableLiveData<FirebaseUser>, recipe: RecipeModel, context: Context) {
+        //recipe.uid= getId()
         recipes.add(recipe)
         logAll()
     }
 
-    override fun update(recipe: RecipeModel) {
-        var foundRecipe: RecipeModel? = recipes.find { r -> r.id == recipe.id }
+    override fun update(userid: String, recipeId: String, recipe: RecipeModel, context: Context) {
+        var foundRecipe: RecipeModel? = recipes.find { r -> r.uid == recipe.uid }
         if (foundRecipe != null) {
             foundRecipe.name = recipe.name
             foundRecipe.description = recipe.description
@@ -41,13 +52,12 @@ object RecipeManager: RecipeStore {
         }
     }
 
-    override fun delete(recipe: RecipeModel) {
-        recipes.remove(recipe)
+    override fun delete(id: String, recipe: RecipeModel) {
+        //recipes.remove(findById(id))
     }
 
-    override fun deleteAll(): MutableList<RecipeModel>{
+    override fun deleteAll(userid: String) {
         recipes.removeAll(recipes)
-        return recipes
     }
 
     fun logAll() {

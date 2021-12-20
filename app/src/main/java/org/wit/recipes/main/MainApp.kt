@@ -8,9 +8,9 @@ import timber.log.Timber.i
 class MainApp : Application() {
 
     //val recipes = ArrayList<RecipeModel>()
-    lateinit var recipes: RecipeStore
-    lateinit var users : UserStore
-    var currentUser: UserModel? = null
+    //lateinit var recipes: RecipeStore
+    //lateinit var users : UserStore
+    //var currentUser: UserModel? = null
 
 
     override fun onCreate() {
@@ -20,7 +20,7 @@ class MainApp : Application() {
         //recipes = RecipeManager()
         //recipes = RecipeJSONStore(applicationContext)
         //users = UserMemStore()
-        users = UserJSONStore(applicationContext)
-        currentUser
+        //users = UserJSONStore(applicationContext)
+        //currentUser
     }
 }

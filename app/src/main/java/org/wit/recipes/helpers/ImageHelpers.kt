@@ -1,7 +1,11 @@
 package org.wit.recipes.helpers
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.net.Uri
 import androidx.activity.result.ActivityResultLauncher
 import com.makeramen.roundedimageview.RoundedTransformationBuilder
 import com.squareup.picasso.Transformation
@@ -21,3 +25,20 @@ fun customTransformation() : Transformation =
         .cornerRadiusDp(35F)
         .oval(false)
         .build()
+
+fun readImageFromPath(context: Context, path: String) : Bitmap? {
+    var bitmap : Bitmap? = null
+    val uri = Uri.parse(path)
+
+    if(uri != null) {
+        try{
+            val parcelFileDescriptor = context.getContentResolver().openFileDescriptor(uri, "r")
+            val fileDescriptor = parcelFileDescriptor?.getFileDescriptor()
+            bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor)
+            parcelFileDescriptor?.close()
+        } catch (e: Exception){
+
+        }
+    }
+    return bitmap
+}

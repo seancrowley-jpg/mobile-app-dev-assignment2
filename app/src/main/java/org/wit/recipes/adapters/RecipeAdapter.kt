@@ -4,12 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import org.wit.recipes.databinding.CardRecipeBinding
 import org.wit.recipes.models.RecipeModel
-import timber.log.Timber
-import java.util.*
 import kotlin.collections.ArrayList
 
 interface RecipeListener {
@@ -18,7 +17,7 @@ interface RecipeListener {
     fun onEditClick(recipe: RecipeModel)
 }
 
-class RecipeAdapter constructor(private var recipes: List<RecipeModel>, private val listener: RecipeListener) :
+class RecipeAdapter constructor(private var recipes: ArrayList<RecipeModel>, private val listener: RecipeListener, private val readOnly: Boolean) :
     RecyclerView.Adapter<RecipeAdapter.MainHolder>(), Filterable {
 
     private val recipesFiltered = recipes
@@ -28,7 +27,7 @@ class RecipeAdapter constructor(private var recipes: List<RecipeModel>, private 
         val binding = CardRecipeBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
 
-        return MainHolder(binding)
+        return MainHolder(binding, readOnly)
     }
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
@@ -67,17 +66,23 @@ class RecipeAdapter constructor(private var recipes: List<RecipeModel>, private 
         }
     }
 
-    class MainHolder(private val binding : CardRecipeBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    fun removeAt(position: Int) {
+        recipes.removeAt(position)
+        notifyItemRemoved(position)
+    }
 
+    class MainHolder(private val binding : CardRecipeBinding, private val readOnly : Boolean) :
+        RecyclerView.ViewHolder(binding.root) {
+        val readOnlyRow = readOnly
         fun bind(recipe: RecipeModel, listener: RecipeListener) {
             //binding.recipeName.text = recipe.name
             //binding.recipeDescription.text = recipe.description
             binding.recipe = recipe
-            Picasso.get().load(recipe.image).resize(200,200).into(binding.imageIcon)
-            binding.btnEditRecipe.setOnClickListener { listener.onEditClick(recipe) }
+            binding.root.tag = recipe
+            Picasso.get().load(recipe.image.toUri()).resize(200,200).into(binding.imageIcon)
+            //binding.btnEditRecipe.setOnClickListener { listener.onEditClick(recipe) }
             binding.root.setOnClickListener { listener.onRecipeClick(recipe) }
-            binding.btnDeleteRecipe.setOnClickListener { listener.onDeleteClick(recipe) }
+            //binding.btnDeleteRecipe.setOnClickListener { listener.onDeleteClick(recipe) }
             binding.executePendingBindings()
         }
     }

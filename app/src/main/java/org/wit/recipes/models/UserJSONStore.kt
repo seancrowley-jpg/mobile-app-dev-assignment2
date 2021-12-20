@@ -30,7 +30,7 @@ class UserJSONStore (private val context: Context) : UserStore{
     }
 
     override fun signup(user: UserModel) {
-        user.id= generateRandomId()
+        user.id= getId()
         users.add(user)
         logAll()
         serialize()
