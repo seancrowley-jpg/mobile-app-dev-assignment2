@@ -52,7 +52,7 @@ object RecipeManager: RecipeStore {
         }
     }
 
-    override fun delete(id: String, recipeId: String) {
+    override fun delete(id: String, recipe: RecipeModel) {
         //recipes.remove(findById(id))
     }
 

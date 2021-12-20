@@ -108,11 +108,17 @@ object FirebaseDBManager : RecipeStore {
         updateImage(recipe,userid, context)
     }
 
-    override fun delete(userid: String, recipeId: String) {
+    override fun delete(userid: String, recipe : RecipeModel ) {
         val childDelete : MutableMap<String, Any?> = HashMap()
-        childDelete["/recipes/$recipeId"] = null
-        childDelete["/user-recipes/$userid/$recipeId"] = null
+        childDelete["/recipes/${recipe.uid}"] = null
+        childDelete["/user-recipes/$userid/${recipe.uid}"] = null
         database.updateChildren(childDelete)
+        Timber.i("RecipeId ${recipe.uid} , User $userid")
+        val fileName = File(recipe.image)
+        val imageName = fileName.getName()
+        var imageRef = storage.child("$userid/${recipe.uid}/$imageName")
+        Timber.i("$imageRef")
+        imageRef.delete()
     }
 
     override fun deleteAll(userid: String) {
@@ -126,7 +132,7 @@ object FirebaseDBManager : RecipeStore {
             val fileName = File(recipe.image)
             val imageName = fileName.getName()
 
-            var imageRef = storage.child("$userid/$imageName")
+            var imageRef = storage.child("$userid/${recipe.uid}/$imageName")
             val baos = ByteArrayOutputStream()
             val bitmap = readImageFromPath(context, recipe.image)
 

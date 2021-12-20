@@ -48,9 +48,9 @@ class RecipeListViewModel : ViewModel(){
         }
     }
 
-    fun deleteRecipe(userid: String,id: String) {
+    fun deleteRecipe(userid: String,recipe: RecipeModel) {
         try {
-            FirebaseDBManager.delete(userid,id)
+            FirebaseDBManager.delete(userid,recipe)
             Timber.i("Report Delete Success")
         }
         catch (e: Exception) {

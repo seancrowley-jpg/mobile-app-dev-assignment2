@@ -11,6 +11,6 @@ interface RecipeStore {
     fun findRecipeById(recipeId: String, recipe: MutableLiveData<RecipeModel>)
     fun create(firebaseUser: MutableLiveData<FirebaseUser>, recipe: RecipeModel, context: Context)
     fun update(userid: String, recipeId: String,recipe: RecipeModel, context: Context)
-    fun delete(userid: String, recipeId: String)
+    fun delete(userid: String, recipe: RecipeModel)
     fun deleteAll(userid: String)
 }

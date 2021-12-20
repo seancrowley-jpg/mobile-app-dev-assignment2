@@ -76,7 +76,7 @@ class RecipeListFragment : Fragment(), RecipeListener {
                 val adapter = fragBinding.recyclerView.adapter as RecipeAdapter
                 adapter.removeAt(viewHolder.adapterPosition)
                 recipeListViewModel.deleteRecipe(loggedInViewModel.liveFirebaseUser.value?.uid!!,
-                    (viewHolder.itemView.tag as RecipeModel).uid!!)
+                    (viewHolder.itemView.tag as RecipeModel))
                 hideLoader(loader)
             }
         }
@@ -182,7 +182,7 @@ class RecipeListFragment : Fragment(), RecipeListener {
     }
 
     override fun onDeleteClick(recipe: RecipeModel) {
-        recipeListViewModel.deleteRecipe(recipeListViewModel.liveFirebaseUser.value?.uid!!,recipe.uid!!)
+        recipeListViewModel.deleteRecipe(recipeListViewModel.liveFirebaseUser.value?.uid!!,recipe)
         fragBinding.recyclerView.adapter?.notifyDataSetChanged()
     }
 
