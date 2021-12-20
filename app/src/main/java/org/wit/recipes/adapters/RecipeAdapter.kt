@@ -58,9 +58,9 @@ class RecipeAdapter constructor(private var recipes: ArrayList<RecipeModel>, pri
             }
 
             override fun publishResults(p0: CharSequence?, p1: FilterResults?) {
-                //recipesFiltered.clear()
-                //recipesFiltered.addAll(p1!!.values as ArrayList<RecipeModel>)
-                //notifyDataSetChanged()
+                recipesFiltered.clear()
+                recipesFiltered.addAll(p1!!.values as ArrayList<RecipeModel>)
+                notifyDataSetChanged()
             }
 
         }

@@ -27,7 +27,7 @@ class RecipeListViewModel : ViewModel(){
     fun load() {
         try {
             Timber.i("Firebase User Id: ${liveFirebaseUser.value?.uid!!}")
-            //readOnly.value = false
+            readOnly.value = false
             FirebaseDBManager.findAll(liveFirebaseUser.value?.uid!!,
                 recipeList)
             Timber.i("Load Success : ${recipeList.value.toString()}")
@@ -39,7 +39,7 @@ class RecipeListViewModel : ViewModel(){
 
     fun loadAll() {
         try {
-            //readOnly.value = true
+            readOnly.value = true
             FirebaseDBManager.findAll(recipeList)
             Timber.i("LoadAll Success : ${recipeList.value.toString()}")
         }

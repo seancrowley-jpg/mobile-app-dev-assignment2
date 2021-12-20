@@ -34,7 +34,7 @@ class RecipeListFragment : Fragment(), RecipeListener {
     lateinit var app: MainApp
     private var _fragBinding: FragmentRecipeListBinding? = null
     private val fragBinding get() = _fragBinding!!
-    //private lateinit var adapter: RecipeAdapter
+    private lateinit var adapter: RecipeAdapter
     private val recipeListViewModel: RecipeListViewModel by activityViewModels()
     private val loggedInViewModel: LoggedInViewModel by activityViewModels()
     lateinit var loader : AlertDialog
@@ -62,6 +62,7 @@ class RecipeListFragment : Fragment(), RecipeListener {
             checkSwipeRefresh()
         })
         setSwipeRefresh()
+        //adapter = (fragBinding.recyclerView.adapter as RecipeAdapter?)!!
 
         //adapter = RecipeAdapter(app.recipes.findAll(),this)
         //fragBinding.recyclerView.adapter = adapter
@@ -73,7 +74,6 @@ class RecipeListFragment : Fragment(), RecipeListener {
 
         val swipeDeleteHandler = object : SwipeToDeleteCallback(requireContext()) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val adapter = fragBinding.recyclerView.adapter as RecipeAdapter
                 adapter.removeAt(viewHolder.adapterPosition)
                 recipeListViewModel.deleteRecipe(loggedInViewModel.liveFirebaseUser.value?.uid!!,
                     (viewHolder.itemView.tag as RecipeModel))
@@ -105,7 +105,7 @@ class RecipeListFragment : Fragment(), RecipeListener {
             }
 
             override fun onQueryTextChange(p0: String?): Boolean {
-                //adapter.filter.filter(p0)
+                adapter.filter.filter(p0)
                 //if(p0.isNullOrBlank()) loadRecipes()
                 return true
             }
@@ -135,6 +135,7 @@ class RecipeListFragment : Fragment(), RecipeListener {
 
     private fun render(recipeList: ArrayList<RecipeModel>) {
         fragBinding.recyclerView.adapter = RecipeAdapter(recipeList, this, recipeListViewModel.readOnly.value!!)
+        adapter = fragBinding.recyclerView.adapter as RecipeAdapter
         if (recipeList.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE
             fragBinding.recipesNotFound.visibility = View.VISIBLE
