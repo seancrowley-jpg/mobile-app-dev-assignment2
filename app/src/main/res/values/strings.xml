@@ -62,6 +62,7 @@
     <string name="recipeError">Error : Couldn\'t Create Recipe...</string>
     <string name="auth_failed">Error Authenticating with Firebase</string>
     <string name="messageLoading">Recipes Loading...</string>
+    <string name="change_theme">Switch Theme</string>
     <string name="style_json">[
   {
     "featureType": "poi",

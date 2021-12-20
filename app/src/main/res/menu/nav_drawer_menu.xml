@@ -25,6 +25,16 @@
         </menu>
     </item>
 
+    <item android:title="Theme">
+        <menu>
+            <item
+                android:id="@+id/nav_toggle_style"
+                android:title="@string/change_theme"
+                android:icon="@drawable/ic_change_theme_icon"
+                android:onClick="changeTheme"/>
+        </menu>
+    </item>
+
     <item android:title="Access Control">
         <menu>
             <item

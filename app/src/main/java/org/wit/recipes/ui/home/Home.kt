@@ -1,9 +1,12 @@
 package org.wit.recipes.ui.home
 
 import android.content.Intent
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.SwitchCompat
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
@@ -82,5 +85,15 @@ class Home : AppCompatActivity() {
         val intent = Intent(this, LoginActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
+    }
+
+    fun changeTheme(item: MenuItem){
+        val isNightTheme = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        when (isNightTheme) {
+            Configuration.UI_MODE_NIGHT_YES ->
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            Configuration.UI_MODE_NIGHT_NO ->
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }
     }
 }
