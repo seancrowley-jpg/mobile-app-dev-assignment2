@@ -14,7 +14,8 @@ data class RecipeModel(
     var image: String = "",
     var ingredients: MutableList<String?> = ArrayList(),
     var meal: String = "",
-    var steps: MutableList<String?> = ArrayList())
+    var fid: String = "",
+    var steps: MutableList<String?> = ArrayList(), )
     :Parcelable {
     @Exclude
     fun toMap(): Map<String, Any?> {
@@ -25,6 +26,7 @@ data class RecipeModel(
             "image" to image,
             "ingredients" to ingredients,
             "meal" to meal,
+            "fid" to fid,
             "steps" to steps,
         )
     }

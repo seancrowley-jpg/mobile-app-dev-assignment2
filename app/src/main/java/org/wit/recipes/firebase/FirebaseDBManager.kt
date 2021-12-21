@@ -91,6 +91,7 @@ object FirebaseDBManager : RecipeStore {
             return
         }
         recipe.uid = key
+        recipe.fid = uid
         val recipeValues = recipe.toMap()
         val childAdd = HashMap<String, Any>()
         childAdd["/recipes/$key"] = recipeValues
@@ -123,8 +124,19 @@ object FirebaseDBManager : RecipeStore {
 
     override fun deleteAll(userid: String) {
         val childDelete : MutableMap<String, Any?> = HashMap()
+        val allRecipes = database.child("recipes").orderByChild("fid").equalTo(userid)
         childDelete["/user-recipes/$userid/"] = null
+        allRecipes.addListenerForSingleValueEvent(
+            object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {}
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.children.forEach {
+                        it.ref.setValue(null)
+                    }
+                }
+            })
         database.updateChildren(childDelete)
+
     }
 
     fun updateImage(recipe: RecipeModel, userid: String, context: Context) {
