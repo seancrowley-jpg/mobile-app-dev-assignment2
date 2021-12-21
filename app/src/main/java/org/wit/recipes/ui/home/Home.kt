@@ -21,6 +21,7 @@ import org.wit.recipes.databinding.NavHeaderBinding
 import org.wit.recipes.helpers.customTransformation
 import org.wit.recipes.ui.auth.LoggedInViewModel
 import org.wit.recipes.ui.auth.LoginActivity
+import org.wit.recipes.ui.recipeList.RecipeListViewModel
 
 class Home : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
@@ -28,6 +29,7 @@ class Home : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navHeaderBinding : NavHeaderBinding
     private lateinit var loggedInViewModel : LoggedInViewModel
+    private lateinit var recipeListViewModel: RecipeListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +56,7 @@ class Home : AppCompatActivity() {
     public override fun onStart() {
         super.onStart()
         loggedInViewModel = ViewModelProvider(this).get(LoggedInViewModel::class.java)
+        recipeListViewModel = ViewModelProvider(this).get(RecipeListViewModel::class.java)
         loggedInViewModel.liveFirebaseUser.observe(this, Observer { firebaseUser ->
             if (firebaseUser != null)
                 updateNavHeader(loggedInViewModel.liveFirebaseUser.value!!)
@@ -95,5 +98,13 @@ class Home : AppCompatActivity() {
             Configuration.UI_MODE_NIGHT_NO ->
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
+    }
+
+    fun deleteAccount(item: MenuItem){
+        recipeListViewModel.deleteAllRecipes()
+        loggedInViewModel.deleteAccount()
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
     }
 }

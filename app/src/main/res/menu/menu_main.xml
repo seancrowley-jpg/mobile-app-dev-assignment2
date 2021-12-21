@@ -30,11 +30,6 @@
         />
 
     <item
-        android:id="@+id/item_delete_account"
-        android:orderInCategory="100"
-        android:title="@string/menu_delete_account"
-        />
-    <item
         android:id="@+id/toggleRecipes"
         android:title=""
         app:actionLayout="@layout/togglebutton_layout"
