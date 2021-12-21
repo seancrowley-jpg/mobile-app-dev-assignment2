@@ -15,6 +15,7 @@ data class RecipeModel(
     var ingredients: MutableList<String?> = ArrayList(),
     var meal: String = "",
     var fid: String = "",
+    var email: String = "",
     var steps: MutableList<String?> = ArrayList(), )
     :Parcelable {
     @Exclude
@@ -27,6 +28,7 @@ data class RecipeModel(
             "ingredients" to ingredients,
             "meal" to meal,
             "fid" to fid,
+            "email" to email,
             "steps" to steps,
         )
     }

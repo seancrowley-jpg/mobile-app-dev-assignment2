@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
+<layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
@@ -8,7 +8,6 @@
             type="org.wit.recipes.models.RecipeModel" />
     </data>
     <androidx.cardview.widget.CardView
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -22,8 +21,8 @@
 
             <ImageView
                 android:id="@+id/imageIcon"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="16dp"
                 android:contentDescription="@string/change_recipe_image"
@@ -34,7 +33,7 @@
 
             <TextView
                 android:id="@+id/recipeName"
-                android:layout_width="173dp"
+                android:layout_width="300dp"
                 android:layout_height="38dp"
                 android:layout_marginTop="4dp"
                 android:textAlignment="viewStart"
@@ -42,6 +41,7 @@
                 android:ellipsize="end"
                 android:autoSizeTextType="uniform"
                 android:text="@{recipe.name}"
+                android:layout_marginStart="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.048"
                 app:layout_constraintStart_toEndOf="@+id/imageIcon"
@@ -50,13 +50,15 @@
 
             <TextView
                 android:id="@+id/recipeDescription"
-                android:layout_width="169dp"
+                android:layout_width="300dp"
                 android:layout_height="33dp"
                 android:layout_marginTop="4dp"
                 android:textAlignment="viewStart"
                 android:ellipsize="end"
                 android:autoSizeTextType="uniform"
                 android:text="@{recipe.description}"
+                android:layout_marginStart="5dp"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.052"
                 app:layout_constraintStart_toEndOf="@+id/imageIcon"

@@ -92,6 +92,7 @@ object FirebaseDBManager : RecipeStore {
         }
         recipe.uid = key
         recipe.fid = uid
+        recipe.email = firebaseUser.value!!.email.toString()
         val recipeValues = recipe.toMap()
         val childAdd = HashMap<String, Any>()
         childAdd["/recipes/$key"] = recipeValues
@@ -131,6 +132,19 @@ object FirebaseDBManager : RecipeStore {
                 override fun onCancelled(error: DatabaseError) {}
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach {
+                        //An attempt at deleting recipes images in storage
+                        /*val recipe = it.getValue(RecipeModel::class.java)
+                        if (recipe?.image != "") {
+                            val fileName = File(recipe?.image!!)
+                            val imageName = fileName.name
+                            val imageRef =
+                                storage.child("$userid/${recipe?.uid}/$imageName")
+                            Timber.i("IMAGE REF : $imageRef")
+                            Timber.i("Image NAME : $imageName")
+                            Timber.i("Recipe : $recipe")
+                            Timber.i("FILE NAME : $fileName")
+                            imageRef.delete()
+                        }*/
                         it.ref.setValue(null)
                     }
                 }

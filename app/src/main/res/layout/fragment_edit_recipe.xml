@@ -30,32 +30,48 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <EditText
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/EditRecipeNametextField"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_recipeName"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/recipeName"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:layout_margin="8dp"
-                        android:hint="@string/hint_recipeName"
                         android:inputType="textMultiLine"
                         android:padding="8dp"
                         android:textColor="@color/teal_700"
                         android:textSize="14sp"
                         android:text="@{recipevm.observableRecipe.name}"
                         />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                    <EditText
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/EditRecipeDescriptiontextField"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_recipeDescription"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/recipeDescription"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:layout_margin="8dp"
                         android:ems="10"
                         android:gravity="start|top"
-                        android:hint="@string/hint_recipeDescription"
                         android:inputType="textMultiLine"
                         android:padding="8dp"
                         android:textColor="@color/teal_700"
                         android:textSize="14sp"
                         android:text="@{recipevm.observableRecipe.description}"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
 
                     <TextView
                         android:id="@+id/mealText"
@@ -66,19 +82,39 @@
                         android:text="@{recipevm.observableRecipe.meal}"
                         />
 
+                    <View
+                        android:id="@+id/divider"
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:background="?android:attr/listDivider" />
+
                     <NumberPicker
                         android:id="@+id/mealPicker"
                         android:layout_width="match_parent"
                         android:layout_height="107dp" />
 
-                    <EditText
+                    <View
+                        android:id="@+id/divider2"
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:background="?android:attr/listDivider"
+                        android:layout_marginBottom="8dp"
+                        />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/EditRecipeIngredienttextField"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_ingredient"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/ingredientText"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:layout_margin="8dp"
                         android:ems="10"
                         android:gravity="start|top"
-                        android:hint="@string/hint_ingredient"
                         android:inputType="textMultiLine"
                         android:lines="4"
                         android:maxLength="90"
@@ -87,6 +123,7 @@
                         android:textColor="@color/teal_700"
                         android:textSize="14sp"
                         />
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <Button
                         android:id="@+id/btnAddIngredient"
@@ -98,6 +135,8 @@
                         android:paddingBottom="8dp"
                         android:text="@string/button_addIngredient"
                         android:textColor="@color/colorPrimary"
+                        app:icon="@android:drawable/ic_input_add"
+                        app:iconGravity="textStart"
                         android:textSize="16sp" />
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -106,15 +145,20 @@
                         android:layout_height="match_parent"
                         android:scrollbars="vertical"
                         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/EditRecipeSteptextField"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_steps"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-                    <EditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/stepsText"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:layout_margin="8dp"
                         android:ems="10"
                         android:gravity="start|top"
-                        android:hint="@string/hint_steps"
                         android:inputType="textMultiLine"
                         android:lines="4"
                         android:maxLength="180"
@@ -122,6 +166,7 @@
                         android:padding="8dp"
                         android:textColor="@color/teal_700"
                         android:textSize="14sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <Button
                         android:id="@+id/btnAddStep"
@@ -133,6 +178,8 @@
                         android:paddingBottom="8dp"
                         android:text="@string/button_addStep"
                         android:textColor="@color/colorPrimary"
+                        app:icon="@android:drawable/ic_input_add"
+                        app:iconGravity="textStart"
                         android:textSize="16sp" />
 
                     <androidx.recyclerview.widget.RecyclerView

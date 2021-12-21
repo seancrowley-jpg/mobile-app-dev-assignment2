@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">RecipesApp</string>
-    <string name="hint_recipeName">Recipe Name</string>
-    <string name="hint_recipeDescription">Recipe Description</string>
+    <string name="hint_recipeName">Name</string>
+    <string name="hint_recipeDescription">Description</string>
     <string name="button_addRecipe">Add Recipe</string>
     <string name="menu_addRecipe">Add</string>
     <string name="menu_cancelRecipe">Cancel</string>
@@ -11,9 +11,9 @@
     <string name="select_recipe_image">Select an image for the Recipe</string>
     <string name="change_recipe_image">Change Recipe image</string>
     <string name="pick_meal">What type of meal is it?</string>
-    <string name="hint_ingredient">Add an Ingredient</string>
+    <string name="hint_ingredient">Add Ingredients</string>
     <string name="button_addIngredient">Add Ingredient</string>
-    <string name="hint_steps">Enter the steps to create the recipe</string>
+    <string name="hint_steps">Add steps</string>
     <string name="header_signup_account">Create an Account</string>
     <string name="header_login_account">Login to your Account or Create an Account</string>
     <string name="hint_name">Enter your Name</string>
@@ -64,6 +64,7 @@
     <string name="auth_failed">Error Authenticating with Firebase</string>
     <string name="messageLoading">Recipes Loading...</string>
     <string name="change_theme">Switch Theme</string>
+    <string name="recipe_author">Created By</string>
     <string name="style_json">[
   {
     "featureType": "poi",

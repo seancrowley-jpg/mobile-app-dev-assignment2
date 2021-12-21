@@ -127,7 +127,10 @@ class RecipeListFragment : Fragment(), RecipeListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.item_delete_all){
             recipeListViewModel.deleteAllRecipes()
-            hideLoader(loader)
+            if(recipeListViewModel.readOnly.value!!)
+                recipeListViewModel.loadAll()
+            else
+                recipeListViewModel.load()
         }
         return NavigationUI.onNavDestinationSelected(item,
             requireView().findNavController()) || super.onOptionsItemSelected(item)

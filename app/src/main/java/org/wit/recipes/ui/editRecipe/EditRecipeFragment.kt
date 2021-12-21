@@ -105,7 +105,7 @@ class EditRecipeFragment : Fragment(), IngredientListener, StepListener {
             fragBinding.recipevm?.observableRecipe!!.value!!.description = layout.recipeDescription.text.toString()
             fragBinding.recipevm?.observableRecipe!!.value!!.meal = layout.mealText.text.toString()
             Timber.i("Image ${fragBinding.recipevm?.observableRecipe!!.value!!}")
-            if (layout.recipeName.text.isEmpty()) {
+            if (layout.recipeName.text!!.isEmpty()) {
                 layout.recipeName.requestFocus();
                 layout.recipeName.setError("Please enter a Name for the recipe");
             }
