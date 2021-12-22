@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <item android:title="Recipes">
+    <item android:title="@string/nav_recipes_group">
         <menu>
             <item
                 android:id="@+id/recipeFragment"
@@ -16,7 +16,7 @@
         </menu>
     </item>
 
-    <item android:title="Find Shops">
+    <item android:title="@string/nav_map_group">
         <menu>
             <item
                 android:id="@+id/mapFragment"
@@ -25,7 +25,7 @@
         </menu>
     </item>
 
-    <item android:title="Theme">
+    <item android:title="@string/nav_theme_group">
         <menu>
             <item
                 android:id="@+id/nav_toggle_style"
@@ -35,7 +35,7 @@
         </menu>
     </item>
 
-    <item android:title="Access Control">
+    <item android:title="@string/nav_access_control_group">
         <menu>
             <item
                 android:id="@+id/nav_sign_out"
@@ -45,12 +45,12 @@
         </menu>
     </item>
 
-    <item android:title="Delete Account">
+    <item android:title="@string/nav_delete_group">
         <menu>
             <item
                 android:id="@+id/nav_delete_user"
                 android:icon="@android:drawable/ic_delete"
-                android:title="Delete Account"
+                android:title="@string/nav_delete_group"
                 android:onClick="deleteAccount"/>
         </menu>
     </item>

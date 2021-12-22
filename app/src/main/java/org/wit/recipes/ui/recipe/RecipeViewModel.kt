@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseUser
 import org.wit.recipes.firebase.FirebaseDBManager
-import org.wit.recipes.models.RecipeManager
 import org.wit.recipes.models.RecipeModel
 
 class RecipeViewModel : ViewModel() {

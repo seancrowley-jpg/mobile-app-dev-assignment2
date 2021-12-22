@@ -29,7 +29,6 @@ import org.wit.recipes.adapters.StepListener
 import org.wit.recipes.adapters.StepsAdapter
 import org.wit.recipes.databinding.FragmentEditRecipeBinding
 import org.wit.recipes.helpers.showImagePicker
-import org.wit.recipes.models.RecipeModel
 import org.wit.recipes.ui.auth.LoggedInViewModel
 import timber.log.Timber
 import java.io.File

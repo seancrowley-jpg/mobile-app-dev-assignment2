@@ -45,6 +45,11 @@
     <string name="create_recipe_toolbar">Create Recipe</string>
     <string name="view_recipe_toolbar">Recipe</string>
     <string name="recipe_list_toolbar">Recipe List</string>
+    <string name="nav_recipes_group">Recipes</string>
+    <string name="nav_map_group">Find Shops</string>
+    <string name="nav_theme_group">Theme</string>
+    <string name="nav_access_control_group">Access Control</string>
+    <string name="nav_delete_group">Delete Account</string>
     <string-array name="meals">
         <item>Breakfast</item>
         <item>Lunch</item>

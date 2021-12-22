@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.SignupActivity">
+    tools:context=".ui.auth.LoginActivity">
 
 
     <com.google.android.material.appbar.AppBarLayout
@@ -66,7 +66,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailField" />
 
-
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
@@ -88,15 +87,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="270dp"
-        android:layout_marginTop="400dp"
+        android:layout_marginTop="420dp"
         android:layout_marginEnd="52dp"
         android:layout_marginBottom="283dp"
         android:text="@string/btn_signUp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.65" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/googleSignInButton"
