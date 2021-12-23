@@ -93,11 +93,11 @@ class FirebaseAuthManager(application: Application) {
         firebaseAuth!!.currentUser?.delete()?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Timber.i( "account deleted")
+                googleSignInClient.value!!.signOut()
+                loggedOut.postValue(true)
+                errorStatus.postValue(false)
             }
         }
-        googleSignInClient.value!!.signOut()
-        loggedOut.postValue(true)
-        errorStatus.postValue(false)
     }
 
     fun logOut() {
